@@ -3,6 +3,11 @@
 #include <sstream>
 #include <string>
 
+#include "appear.hh"
+#include "bwor.hh"
+#include "negation.hh"
+#include "newor.hh"
+
 void bruteforce(int lox, int hix, int loy, int hiy)
 {
     // Value of INT_MAX is + 2147483647. Value of INT_MIN is - 2147483648.
@@ -15,13 +20,19 @@ void bruteforce(int lox, int hix, int loy, int hiy)
             if (z < loz) loz = z;
         }
     }
-    std::cout << "Bruteforce(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << loz << " " << hiz
+    std::cout << "Bruteforce (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << loz << ".." << hiz
               << std::endl;
 }
 
 void smartforce2(int lox, int hix, int loy, int hiy)
 {
-    // Value of INT_MAX is + 2147483647. Value of INT_MIN is - 2147483648.
+    // check trivial cases
+    if (lox == hix && loy == hiy) {
+        std::cout << "Smartforce2(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << (lox & loy) << " "
+                  << (lox & loy) << std::endl;
+        return;
+    }
+
     if (lox >= 0 && loy >= 0) {
         std::cout << "smartforce2(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> ";
         // we are in the simple case
@@ -48,7 +59,7 @@ void smartforce2(int lox, int hix, int loy, int hiy)
                 loy = std::max(0, loy - b);
             }
         }
-        std::cout << 0 << " " << z << std::endl;
+        std::cout << 0 << ".." << z << std::endl;
     } else {
         std::cout << "error" << std::endl;
     }
@@ -66,8 +77,12 @@ void smartforce3(int lox, int hix, int loy, int hiy)
             int b = 1 << i;
 
             // is this bit can appear both in x and y interval ?
-            bool inx = b >= lox && b <= hix;
-            bool iny = b >= loy && b <= hiy;
+            // bool inx = b >= lox && b <= hix;
+            // bool iny = b >= loy && b <= hiy;
+
+            // is this bit can appear both in x and y interval ?
+            bool inx = ((b & hix) != 0) || ((b & lox) != 0) || ((b + lox) <= hix);
+            bool iny = ((b & hiy) != 0) || ((b & loy) != 0) || ((b + loy) <= hiy);
 
             // std::cout << "smartforce2: "
             //           << " i = " << i << " inx = " << inx << " iny = " << iny << std::endl;
@@ -86,7 +101,7 @@ void smartforce3(int lox, int hix, int loy, int hiy)
                 loy = std::max(0, loy - b);
             }
         }
-        std::cout << 0 << " " << z << std::endl;
+        std::cout << 0 << ".." << z << std::endl;
     } else {
         std::cout << "error" << std::endl;
     }
@@ -143,10 +158,71 @@ void smartforce4(int lox, int hix, int loy, int hiy)
             }
         }
 
-        std::cout << w << " " << z << std::endl;
+        std::cout << w << ".." << z << std::endl;
     } else {
         std::cout << "error" << std::endl;
     }
+}
+
+int highest(int lox, int hix, int loy, int hiy)
+{
+    // compute the maximum value
+    int z = 0;
+    for (int i = 30; i >= 0; i--) {
+        int b = 1 << i;
+
+        // is this bit can appear both in x and y interval ?
+        // bool inx = (b & lox) || (b >= lox && b <= hix);
+        // bool iny = (b & loy) || (b >= loy && b <= hiy);
+
+        bool inx = ((b & hix) != 0) || ((b & lox) != 0) || ((b + lox) <= hix);
+        bool iny = ((b & hiy) != 0) || ((b & loy) != 0) || ((b + loy) <= hiy);
+
+        // std::cout << "smartforce2: "
+        //           << " i = " << i << " inx = " << inx << " iny = " << iny << std::endl;
+
+        if (inx && iny) {
+            // std::cout << "smartforce2: "
+            //           << " i = " << i << " is in result " << iny << std::endl;
+            // Cette valeur est dans les deux intervals
+            // elle doit donc être dans le résultat
+            z = z + b;
+
+            // we can remove this bit from the intervals
+            hix = hix - b;
+            lox = std::max(0, lox - b);
+            hiy = hiy - b;
+            loy = std::max(0, loy - b);
+        }
+    }
+    return z;
+}
+
+int lowest(int lox, int hix, int loy, int hiy)
+{
+    // compute the minimum value
+    int z = 0;
+    for (int i = 30; i >= 0; i--) {
+        bool ax = alwaysin(i, lox, hix);
+        bool ay = alwaysin(i, loy, hiy);
+        if (ax && ay) {
+            int b = 1 << i;
+            z     = z + b;
+            lox   = lox - b;
+            loy   = loy - b;
+            hix   = hix - b;
+            hiy   = hiy - b;
+        }
+    }
+    return z;
+}
+
+void smartforce5(int lox, int hix, int loy, int hiy)
+{
+    int hiz = highest(lox, hix, loy, hiy);
+    int loz = lowest(lox, hix, loy, hiy);
+    std::cout << "smartforce5(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << loz << ".." << hiz
+              << std::endl;
 }
 
 void test(int lox, int hix, int loy, int hiy)
@@ -157,6 +233,7 @@ void test(int lox, int hix, int loy, int hiy)
     smartforce2(lox, hix, loy, hiy);
     // smartforce3(lox, hix, loy, hiy); // ne marche pas
     smartforce4(lox, hix, loy, hiy);
+    smartforce5(lox, hix, loy, hiy);
 }
 
 void hello()
@@ -175,7 +252,62 @@ int main()
     // test(259, 259, 0, 259);
     // test(259, 259, 255, 256);
     // test(259, 259, 255, 255);
-    test(1, 2, 1, 3);  // OK
-    test(1, 2, 3, 3);  // Faux
+    // test(1, 2, 1, 3);    // OK
+    // test(1, 2, 3, 3);    // Faux
+    // test(2, 4, 6, 6);    // Faux
+    // test(4, 8, 12, 12);  // Faux
+    // test(4, 8, 12, 13);  // Faux
+    // test(4, 8, 3, 3);    // Faux
+
+    testnegation(-1, 3);
+    testnegation(0, 2);
+    testnegation(-5, -2);
+    testnegation(-5, 5);
+
+    Interval a(2, 3);
+    Interval b(0, 0);
+    Interval c(0, 0);
+
+    testSplitInterval({2, 3});
+    testSplitInterval({1, 3});
+    testSplitInterval({15, 126});
+
+    testor(5, 7, 3, 7);
+    testor(0, 5, 0, 4);
+    testor(0, 5, 0, 4);
+
+    // testappear(1, 0, 6);
+    // testappear(0, 0, 6);
+    // testappear(0, 4, 4);
+    // testappear(7, 4, 4);
+    // testappear(7, -2, -1);
+    // testappear(0, -4, -2);
+    // testappear(1, -4, -3);
+
     return 0;
+
+    /*
+    01 11 = 01
+    10 11 = 10
+
+     X   Y  =  Z
+    010 110 = 010
+    011 110 = 010
+    100 110 = 100
+
+     2   6  =  2
+     3   6  =  2
+     4   6  =  4
+
+     0100 0011 = 1000
+     1000 0011 = 1000
+
+    xx yy = zz
+
+    1000
+    0100
+    0010
+
+
+    */
 }
