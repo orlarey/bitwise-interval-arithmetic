@@ -1,22 +1,22 @@
 #include "newor.hh"
 
-Interval operator+(const Interval& a, unsigned int offset)
+UInterval operator+(const UInterval& a, unsigned int offset)
 {
     return {a.first + offset, a.second + offset};
 }
 
-Interval operator-(const Interval& a, unsigned int offset)
+UInterval operator-(const UInterval& a, unsigned int offset)
 {
     return {a.first - offset, a.second - offset};
 }
 
 // union of intervals
-Interval reunion(const Interval& a, const Interval& b)
+UInterval reunion(const UInterval& a, const UInterval& b)
 {
     return {std::min(a.first, b.first), std::max(a.second, b.second)};
 }
 
-Interval reunion(const Interval& a, const Interval& b, const Interval& c)
+UInterval reunion(const UInterval& a, const UInterval& b, const UInterval& c)
 {
     return reunion(a, reunion(b, c));
 }
@@ -31,11 +31,11 @@ unsigned int msb32(unsigned int x)
     return (x & ~(x >> 1));
 }
 
-bool canSplitInterval(Interval x, Interval& a, Interval& b)
+bool canSplitInterval(UInterval x, UInterval& a, UInterval& b)
 {
     unsigned int m0 = msb32(x.first);
     unsigned int m1 = msb32(x.second);
-    std::cout << "canSplitInterval: " << x << " m0 = " << m0 << " m1 = " << m1 << std::endl;
+    //std::cout << "canSplitInterval: " << x << " m0 = " << m0 << " m1 = " << m1 << std::endl;
     if (m0 == m1) {
         return false;
     }
@@ -48,25 +48,25 @@ bool canSplitInterval(Interval x, Interval& a, Interval& b)
  * @brief trim : msb part
  *
  * @param x
- * @return Interval
+ * @return UInterval
  */
-Interval trim(Interval x)
+UInterval trim(UInterval x)
 {
-    Interval x0, x1;
+    UInterval x0, x1;
     if (canSplitInterval(x, x0, x1)) return x1;
     return x;
 }
 
-std::ostream& operator<<(std::ostream& os, const Interval& x)
+std::ostream& operator<<(std::ostream& os, const UInterval& x)
 {
-    os << '[' << x.first << ',' << x.second << ']';
+    os  << x.first << ".." << x.second;
     return os;
 }
 
-void testSplitInterval(Interval a)
+void testSplitInterval(UInterval a)
 {
-    Interval b(0, 0);
-    Interval c(0, 0);
+    UInterval b(0, 0);
+    UInterval c(0, 0);
 
     if (canSplitInterval(a, b, c)) {
         std::cout << "can split " << a << " into " << b << " and " << c << std::endl;
@@ -75,29 +75,67 @@ void testSplitInterval(Interval a)
     }
 }
 
-Interval newor(Interval a, Interval b)
+unsigned int hiOr(UInterval a, UInterval b)
 {
     auto ma = msb32(a.second);
     auto mb = msb32(b.second);
-    if (ma == 0) return b;
-    if (mb == 0) return a;
-    if (mb > ma) return newor(trim(b) - mb, a) + mb;
-    if (ma > mb) return newor(trim(a) - ma, b) + ma;
+    if (ma == 0) return b.second;
+    if (mb == 0) return a.second;
+    if (mb > ma) return hiOr(trim(b) - mb, a) + mb;
+    if (ma > mb) return hiOr(trim(a) - ma, b) + ma;
     // ma == mb
-    Interval a0, a1, b0, b1;
+    UInterval a0, a1, b0, b1;
     if (canSplitInterval(a, a0, a1)) {
         if (canSplitInterval(b, b0, b1)) {
-            return reunion(newor(a1 - ma, b1 - ma), newor(a1 - ma, b0), newor(a0, b1 - ma)) + ma;
+            return std::max(hiOr(a1 - ma, b1 - ma), std::max(hiOr(a1 - ma, b0), hiOr(a0, b1 - ma))) + ma;
         }
-        return reunion(newor(a1 - ma, b - ma), newor(a0, b - ma)) + ma;
+        return std::max(hiOr(a1 - ma, b - ma), hiOr(a0, b - ma)) + ma;
     }
     if (canSplitInterval(b, b0, b1)) {
-        return reunion(newor(a - ma, b1 - ma), newor(a - ma, b0)) + ma;
+        return std::max(hiOr(a - ma, b1 - ma), hiOr(a - ma, b0)) + ma;
     }
-    return newor(a - ma, b - ma) + ma;
+    return hiOr(a - ma, b - ma) + ma;
 }
 
-void testNewOr(Interval a, Interval b)
+unsigned int loOr(UInterval a, UInterval b)
 {
-    std::cout << "newor(" << a << ", " << b << ") = " << newor(a, b) << std::endl;
+    auto ma = msb32(a.second);
+    auto mb = msb32(b.second);
+    if (ma == 0) return b.first;
+    if (mb == 0) return a.first;
+
+    UInterval a0, a1, b0, b1;
+
+    if (ma > mb) {
+        if (canSplitInterval(a, a0, a1)) return loOr(a0, b);
+        return loOr(a - ma, b) + ma;
+    }
+
+    if (mb > ma) {
+        if (canSplitInterval(b, b0, b1)) return loOr(b0, a);
+        return loOr(b - mb, a) + mb;
+    }
+
+    // ma == mb
+    if (canSplitInterval(a, a0, a1)) {
+        if (canSplitInterval(b, b0, b1)) {
+            return loOr(a0, b0);
+        }
+        // ma is necessarely part of the result
+        return std::min(loOr(a0, b - ma), loOr(a1 - ma, b - ma)) + ma;
+    }
+    if (canSplitInterval(b, b0, b1)) {
+        return std::min(loOr(a - ma, b1 - ma), loOr(a - ma, b0)) + ma;
+    }
+    return loOr(a - ma, b - ma) + ma;
+}
+
+UInterval newor(UInterval a, UInterval b)
+{
+    return {loOr(a, b), hiOr(a, b)};
+}
+
+void testNewOr(UInterval a, UInterval b)
+{
+    std::cout << "newor  (" << a << ", " << b << ") = " << newor(a, b) << std::endl;
 }

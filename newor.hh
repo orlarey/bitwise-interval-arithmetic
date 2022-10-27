@@ -2,17 +2,17 @@
 #include <string>    // std::string
 #include <utility>   // std::pair, std::make_pair
 
-typedef std::pair<unsigned int, unsigned int> Interval;
+typedef std::pair<unsigned int, unsigned int> UInterval;
 
 // return the union of two intervals
-Interval operator+(const Interval& a, const Interval& b);
+UInterval operator+(const UInterval& a, const UInterval& b);
 
 // msb: most significant bit
 unsigned int msb32(unsigned int x);
 
-bool canSplitInterval(Interval x, Interval& a, Interval& b);
-void testSplitInterval(Interval x);
-void testNewOr(Interval a, Interval b);
-Interval newor(Interval a, Interval b);
+bool canSplitInterval(UInterval x, UInterval& a, UInterval& b);
+void testSplitInterval(UInterval x);
+void testNewOr(UInterval a, UInterval b);
+UInterval newor(UInterval a, UInterval b);
 
-std::ostream& operator<<(std::ostream& os, const Interval& x);
+std::ostream& operator<<(std::ostream& os, const UInterval& x);

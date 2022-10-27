@@ -264,9 +264,9 @@ int main()
     testnegation(-5, -2);
     testnegation(-5, 5);
 
-    Interval a(2, 3);
-    Interval b(0, 0);
-    Interval c(0, 0);
+    UInterval a(2, 3);
+    UInterval b(0, 0);
+    UInterval c(0, 0);
 
     testSplitInterval({2, 3});
     testSplitInterval({1, 3});
@@ -274,7 +274,10 @@ int main()
 
     testor(5, 7, 3, 7);
     testor(0, 5, 0, 4);
-    testor(0, 5, 0, 4);
+    testor(0, 6, 3, 4);
+    testor(4,5,2,4);
+    testor(1,7,2,7);
+    testor(1000,70000,200,70000);
 
     // testappear(1, 0, 6);
     // testappear(0, 0, 6);

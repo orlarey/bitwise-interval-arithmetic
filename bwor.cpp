@@ -43,9 +43,9 @@ void smartor(int lox, int hix, int loy, int hiy)
 
 void testor(int lox, int hix, int loy, int hiy)
 {
-    brutor(lox, hix, loy, hiy);
-    smartor(lox, hix, loy, hiy);
-    auto z = newor({lox, hix}, {loy, hiy});
-    std::cout << "Newor(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << z
-              << std::endl;
+   // brutor(lox, hix, loy, hiy);
+    //smartor(lox, hix, loy, hiy);
+        auto z = newor({lox, hix}, {loy, hiy});
+    std::cout << "Newor  (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << z
+              << '\n' << std::endl;
 }
