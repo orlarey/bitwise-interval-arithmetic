@@ -275,9 +275,10 @@ int main()
     testor(5, 7, 3, 7);
     testor(0, 5, 0, 4);
     testor(0, 6, 3, 4);
-    testor(4,5,2,4);
-    testor(1,7,2,7);
-    testor(1000,70000,200,70000);
+    testor(4, 5, 2, 4);
+    testor(1, 7, 2, 7);
+    testor(2, 3, 4, 8);
+    // testor(1000,70000,200,70000);
 
     // testappear(1, 0, 6);
     // testappear(0, 0, 6);

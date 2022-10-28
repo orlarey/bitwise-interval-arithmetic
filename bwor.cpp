@@ -32,7 +32,13 @@ void brutor(int lox, int hix, int loy, int hiy)
  * @param lox
  * @param hix
  */
-void smartor(int lox, int hix, int loy, int hiy)
+// Cette stratégie ne marche pas ni pour lo ni pour hi
+// Brutor (2..3, 4..8) -> 6..11
+// Smartor(2..3, 4..8) -> 4..11
+// Brutor (4..5, 2..4) -> 4..7
+// Smartor(4..5, 2..4) -> 4..5
+
+void smartor(int lox, int hix, int loy, int hiy) 
 {
     int loz = std::max(lox, loy);  // ne peut pas être plus petit que le plus grand des plus petits
     int hiz = hix | hiy;           // ne peut pas être plus petit que le plus grand des plus grands
@@ -43,9 +49,9 @@ void smartor(int lox, int hix, int loy, int hiy)
 
 void testor(int lox, int hix, int loy, int hiy)
 {
-   // brutor(lox, hix, loy, hiy);
-    //smartor(lox, hix, loy, hiy);
-        auto z = newor({lox, hix}, {loy, hiy});
+    brutor(lox, hix, loy, hiy);
+    smartor(lox, hix, loy, hiy);
+    auto z = newor({lox, hix}, {loy, hiy});
     std::cout << "Newor  (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << z
               << '\n' << std::endl;
 }
