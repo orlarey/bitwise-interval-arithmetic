@@ -9,6 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 # add the executable
-add_executable(test main.cpp negation.cpp negation.hh bwor.cpp bwor.hh appear.cpp appear.hh newor.cpp newor.hh)
+add_executable(test main.cpp negation.cpp negation.hh bwor.cpp bwor.hh appear.cpp appear.hh newor.cpp newor.hh newand.hh newand.cpp)
 
 

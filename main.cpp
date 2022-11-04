@@ -6,6 +6,7 @@
 #include "appear.hh"
 #include "bwor.hh"
 #include "negation.hh"
+#include "newand.hh"
 #include "newor.hh"
 
 void bruteforce(int lox, int hix, int loy, int hiy)
@@ -225,10 +226,18 @@ void smartforce5(int lox, int hix, int loy, int hiy)
               << std::endl;
 }
 
+void smartforce6(int lox, int hix, int loy, int hiy)
+{
+    UInterval r = newAnd({lox, hix}, {loy, hiy});
+    std::cout << "smartforce6(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << r << std::endl;
+}
+
 void test(int lox, int hix, int loy, int hiy)
 {
     std::cout << std::endl;
     bruteforce(lox, hix, loy, hiy);
+    smartforce6(lox, hix, loy, hiy);
+
     // smartforce(lox, hix, loy, hiy);
     smartforce2(lox, hix, loy, hiy);
     // smartforce3(lox, hix, loy, hiy); // ne marche pas
@@ -253,12 +262,13 @@ int main()
     // test(259, 259, 255, 256);
     // test(259, 259, 255, 255);
     // test(1, 2, 1, 3);    // OK
-    // test(1, 2, 3, 3);    // Faux
-    // test(2, 4, 6, 6);    // Faux
-    // test(4, 8, 12, 12);  // Faux
-    // test(4, 8, 12, 13);  // Faux
-    // test(4, 8, 3, 3);    // Faux
+    test(1, 2, 3, 3);    // Faux
+    test(2, 4, 6, 6);    // Faux
+    test(4, 8, 12, 12);  // Faux
+    test(4, 8, 12, 13);  // Faux
+    test(4, 8, 3, 3);    // Faux
 
+#if 0
     testnegation(-1, 3);
     testnegation(0, 2);
     testnegation(-5, -2);
@@ -287,6 +297,7 @@ int main()
     // testappear(7, -2, -1);
     // testappear(0, -4, -2);
     // testappear(1, -4, -3);
+#endif
 
     return 0;
 

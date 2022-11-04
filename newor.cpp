@@ -1,4 +1,5 @@
 #include "newor.hh"
+#include <tuple>
 
 UInterval operator+(const UInterval& a, unsigned int offset)
 {
@@ -35,7 +36,7 @@ bool canSplitInterval(UInterval x, UInterval& a, UInterval& b)
 {
     unsigned int m0 = msb32(x.first);
     unsigned int m1 = msb32(x.second);
-    //std::cout << "canSplitInterval: " << x << " m0 = " << m0 << " m1 = " << m1 << std::endl;
+    // std::cout << "canSplitInterval: " << x << " m0 = " << m0 << " m1 = " << m1 << std::endl;
     if (m0 == m1) {
         return false;
     }
@@ -59,7 +60,7 @@ UInterval trim(UInterval x)
 
 std::ostream& operator<<(std::ostream& os, const UInterval& x)
 {
-    os  << x.first << ".." << x.second;
+    os << x.first << ".." << x.second;
     return os;
 }
 
@@ -138,4 +139,23 @@ UInterval newor(UInterval a, UInterval b)
 void testNewOr(UInterval a, UInterval b)
 {
     std::cout << "newor  (" << a << ", " << b << ") = " << newor(a, b) << std::endl;
+}
+
+//==================================
+//
+// signd OR
+//
+//=====================================
+
+SInterval newor(SInterval a, SInterval b)
+{
+    UInterval an, ap;
+    UInterval bn, bp;
+    bool      ean, eap, ebn, ebp;
+    ean = negPart(a, an);
+    eap = posPart(a, ap);
+    ean = negPart(b, bn);
+    eap = posPart(b, np);
+
+    return {loOr(a, b), hiOr(a, b)};
 }

@@ -35,3 +35,6 @@
 *.dSYM
 .DS_Store
 build
+
+# VSCode
+.vscode/
