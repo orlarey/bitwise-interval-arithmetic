@@ -268,6 +268,12 @@ int main()
     test(4, 8, 12, 13);  // Faux
     test(4, 8, 3, 3);    // Faux
 
+    testS2U2S({0, 127});
+    testS2U2S({-10, -5});
+    testS2U2S({-10, 5});
+
+    testSignedOr({-10, -5}, {0, 127});
+
 #if 0
     testnegation(-1, 3);
     testnegation(0, 2);
@@ -288,6 +294,7 @@ int main()
     testor(4, 5, 2, 4);
     testor(1, 7, 2, 7);
     testor(2, 3, 4, 8);
+
     // testor(1000,70000,200,70000);
 
     // testappear(1, 0, 6);

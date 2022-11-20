@@ -38,7 +38,7 @@ void brutor(int lox, int hix, int loy, int hiy)
 // Brutor (4..5, 2..4) -> 4..7
 // Smartor(4..5, 2..4) -> 4..5
 
-void smartor(int lox, int hix, int loy, int hiy) 
+void smartor(int lox, int hix, int loy, int hiy)
 {
     int loz = std::max(lox, loy);  // ne peut pas être plus petit que le plus grand des plus petits
     int hiz = hix | hiy;           // ne peut pas être plus petit que le plus grand des plus grands
@@ -51,7 +51,6 @@ void testor(int lox, int hix, int loy, int hiy)
 {
     brutor(lox, hix, loy, hiy);
     smartor(lox, hix, loy, hiy);
-    auto z = newor({lox, hix}, {loy, hiy});
-    std::cout << "Newor  (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << z
-              << '\n' << std::endl;
+    auto z = unsignedOr({lox, hix}, {loy, hiy});
+    std::cout << "Newor  (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << z << '\n' << std::endl;
 }

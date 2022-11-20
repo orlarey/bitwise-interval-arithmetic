@@ -10,7 +10,7 @@ UInterval newAnd(UInterval a, UInterval b)
 {
     UInterval na = newNot(a);
     UInterval nb = newNot(b);
-    UInterval nr = newor(na, nb);
+    UInterval nr = unsignedOr(na, nb);
     UInterval r  = newNot(nr);
     return r;
 }
