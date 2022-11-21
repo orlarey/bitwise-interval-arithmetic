@@ -1,7 +1,6 @@
-#include <tuple>
 
-#include "Interval.hh"
 #include "newor.hh"
+#include "Interval.hh"
 
 // bool empty(UInterval i)
 // {
