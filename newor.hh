@@ -6,6 +6,7 @@ typedef std::pair<unsigned int, unsigned int> UInterval;
 typedef std::pair<int, int>                   SInterval;
 
 bool empty(UInterval i);
+bool empty(SInterval i);
 
 // return the union of two intervals
 UInterval operator+(const UInterval& a, const UInterval& b);

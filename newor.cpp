@@ -6,6 +6,11 @@ bool empty(UInterval i)
     return i.first > i.second;
 }
 
+bool empty(SInterval i)
+{
+    return i.first > i.second;
+}
+
 UInterval operator+(const UInterval& a, unsigned int offset)
 {
     return {a.first + offset, a.second + offset};
@@ -19,13 +24,19 @@ UInterval operator-(const UInterval& a, unsigned int offset)
 // union of signed intervals
 SInterval reunion(const SInterval& a, const SInterval& b)
 {
-    return {std::min(a.first, b.first), std::max(a.second, b.second)};
+    if (empty(a)) return b;
+    if (empty(b)) return a;
+    SInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
+    return res;
 }
 
 // union of intervals
 UInterval reunion(const UInterval& a, const UInterval& b)
 {
-    return {std::min(a.first, b.first), std::max(a.second, b.second)};
+    if (empty(a)) return b;
+    if (empty(b)) return a;
+    UInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
+    return res;
 }
 
 UInterval reunion(const UInterval& a, const UInterval& b, const UInterval& c)
@@ -215,10 +226,42 @@ SInterval signedOr(SInterval a, SInterval b)
     SInterval s3 = U2SInterval(pn);
     SInterval s4 = U2SInterval(np);
 
-    return reunion(reunion(s1, s2), reunion(s3, s4));
+    // std::cout << "s1 = " << s1 << std::endl;
+    // std::cout << "s2 = " << s2 << std::endl;
+    // std::cout << "s3 = " << s3 << std::endl;
+    // std::cout << "s4 = " << s4 << std::endl;
+
+    SInterval r1 = reunion(s1, s2);
+    // std::cout << "r1 = " << r1 << std::endl;
+
+    SInterval r2 = reunion(s3, s4);
+    // std::cout << "r2 = " << r2 << std::endl;
+
+    SInterval rr = reunion(r1, r2);
+    // std::cout << "rr = " << rr << std::endl;
+
+    return rr;
+}
+
+void bruteforceOR(int lox, int hix, int loy, int hiy)
+{
+    // Value of INT_MAX is + 2147483647. Value of INT_MIN is - 2147483648.
+    int loz = 2147483647;
+    int hiz = -2147483648;
+    for (int x = lox; x <= hix; x++) {
+        for (int y = loy; y <= hiy; y++) {
+            int z = x | y;
+            if (z > hiz) hiz = z;
+            if (z < loz) loz = z;
+        }
+    }
+    std::cout << "BruteforceOr (" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << loz << ".." << hiz
+              << std::endl;
 }
 
 void testSignedOr(SInterval a, SInterval b)
 {
-    std::cout << "signedor  (" << a << ", " << b << ") = " << signedOr(a, b) << std::endl;
+    bruteforceOR(a.first, a.second, b.first, b.second);
+    SInterval c = signedOr(a, b);
+    std::cout << "smartSignedOr(" << a << ", " << b << ") = " << c << std::endl;
 }

@@ -9,7 +9,7 @@
 #include "newand.hh"
 #include "newor.hh"
 
-void bruteforce(int lox, int hix, int loy, int hiy)
+void bruteforceAnd(int lox, int hix, int loy, int hiy)
 {
     // Value of INT_MAX is + 2147483647. Value of INT_MIN is - 2147483648.
     int loz = 2147483647;
@@ -235,7 +235,7 @@ void smartforce6(int lox, int hix, int loy, int hiy)
 void test(int lox, int hix, int loy, int hiy)
 {
     std::cout << std::endl;
-    bruteforce(lox, hix, loy, hiy);
+    bruteforceAnd(lox, hix, loy, hiy);
     smartforce6(lox, hix, loy, hiy);
 
     // smartforce(lox, hix, loy, hiy);
@@ -262,17 +262,27 @@ int main()
     // test(259, 259, 255, 256);
     // test(259, 259, 255, 255);
     // test(1, 2, 1, 3);    // OK
-    test(1, 2, 3, 3);    // Faux
-    test(2, 4, 6, 6);    // Faux
-    test(4, 8, 12, 12);  // Faux
-    test(4, 8, 12, 13);  // Faux
-    test(4, 8, 3, 3);    // Faux
+    // test(1, 2, 3, 3);    // Faux
+    // test(2, 4, 6, 6);    // Faux
+    // test(4, 8, 12, 12);  // Faux
+    // test(4, 8, 12, 13);  // Faux
+    // test(4, 8, 3, 3);    // Faux
 
-    testS2U2S({0, 127});
-    testS2U2S({-10, -5});
-    testS2U2S({-10, 5});
+    // testS2U2S({0, 127});
+    // testS2U2S({-10, -5});
+    // testS2U2S({-10, 5});
 
+    testSignedOr({-10, -5}, {0, 125});
     testSignedOr({-10, -5}, {0, 127});
+    testSignedOr({-10, 5}, {0, 127});
+    std::cout << std::endl;
+    testSignedOr({-10, 5}, {-10, 5});
+    testSignedOr({-2, -1}, {-8, -4});
+    // std::cout << std::endl;
+    // testSignedOr({-10, -1}, {-10, -1});
+    // testSignedOr({-10, -1}, {0, 5});
+    // testSignedOr({0, 5}, {-10, -1});
+    // testSignedOr({0, 5}, {0, 5});
 
 #if 0
     testnegation(-1, 3);
