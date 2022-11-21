@@ -1,15 +1,17 @@
-#include "newor.hh"
 #include <tuple>
 
-bool empty(UInterval i)
-{
-    return i.first > i.second;
-}
+#include "Interval.hh"
+#include "newor.hh"
 
-bool empty(SInterval i)
-{
-    return i.first > i.second;
-}
+// bool empty(UInterval i)
+// {
+//     return i.first > i.second;
+// }
+
+// bool empty(SInterval i)
+// {
+//     return i.first > i.second;
+// }
 
 UInterval operator+(const UInterval& a, unsigned int offset)
 {
@@ -21,27 +23,27 @@ UInterval operator-(const UInterval& a, unsigned int offset)
     return {a.first - offset, a.second - offset};
 }
 
-// union of signed intervals
-SInterval reunion(const SInterval& a, const SInterval& b)
-{
-    if (empty(a)) return b;
-    if (empty(b)) return a;
-    SInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
-    return res;
-}
+// // union of signed intervals
+// SInterval reunion(const SInterval& a, const SInterval& b)
+// {
+//     if (empty(a)) return b;
+//     if (empty(b)) return a;
+//     SInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
+//     return res;
+// }
 
-// union of intervals
-UInterval reunion(const UInterval& a, const UInterval& b)
-{
-    if (empty(a)) return b;
-    if (empty(b)) return a;
-    UInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
-    return res;
-}
+// // union of intervals
+// UInterval reunion(const UInterval& a, const UInterval& b)
+// {
+//     if (empty(a)) return b;
+//     if (empty(b)) return a;
+//     UInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
+//     return res;
+// }
 
 UInterval reunion(const UInterval& a, const UInterval& b, const UInterval& c)
 {
-    return reunion(a, reunion(b, c));
+    return a + b + c;
 }
 
 unsigned int msb32(unsigned int x)
@@ -197,7 +199,7 @@ SInterval S2U2S(SInterval a)
     auto [an, ap] = signSplit(a);
     if (empty(an)) return U2SInterval(ap);
     if (empty(ap)) return U2SInterval(an);
-    return reunion(U2SInterval(ap), U2SInterval(an));
+    return U2SInterval(ap) + U2SInterval(an);
 }
 
 void testS2U2S(SInterval a)
@@ -231,13 +233,13 @@ SInterval signedOr(SInterval a, SInterval b)
     // std::cout << "s3 = " << s3 << std::endl;
     // std::cout << "s4 = " << s4 << std::endl;
 
-    SInterval r1 = reunion(s1, s2);
+    SInterval r1 = s1 + s2;
     // std::cout << "r1 = " << r1 << std::endl;
 
-    SInterval r2 = reunion(s3, s4);
+    SInterval r2 = s3 + s4;
     // std::cout << "r2 = " << r2 << std::endl;
 
-    SInterval rr = reunion(r1, r2);
+    SInterval rr = r1 + r2;
     // std::cout << "rr = " << rr << std::endl;
 
     return rr;

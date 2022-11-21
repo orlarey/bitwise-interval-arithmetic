@@ -1,15 +1,14 @@
-#include <iostream>  // std::cout
-#include <string>    // std::string
-#include <utility>   // std::pair, std::make_pair
 
-typedef std::pair<unsigned int, unsigned int> UInterval;
-typedef std::pair<int, int>                   SInterval;
+#include "Interval.hh"
 
-bool empty(UInterval i);
-bool empty(SInterval i);
+// typedef std::pair<unsigned int, unsigned int> UInterval;
+// typedef std::pair<int, int>                   SInterval;
+
+// bool empty(UInterval i);
+// bool empty(SInterval i);
 
 // return the union of two intervals
-UInterval operator+(const UInterval& a, const UInterval& b);
+// UInterval operator+(const UInterval& a, const UInterval& b);
 
 // msb: most significant bit
 unsigned int msb32(unsigned int x);
