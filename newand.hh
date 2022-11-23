@@ -4,5 +4,5 @@
 
 #include "newor.hh"
 
-UInterval newAnd(UInterval a, UInterval b);
-UInterval newNot(UInterval a);
+UInterval newUnsignedAnd(UInterval a, UInterval b);
+UInterval newUnsignedNot(UInterval a);

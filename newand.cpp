@@ -1,16 +1,16 @@
 #include "newand.hh"
 #include "negation.hh"
 
-UInterval newNot(UInterval a)
+UInterval newUnsignedNot(UInterval a)
 {
     return {~a.second, ~a.first};
 }
 
-UInterval newAnd(UInterval a, UInterval b)
+UInterval newUnsignedAnd(UInterval a, UInterval b)
 {
-    UInterval na = newNot(a);
-    UInterval nb = newNot(b);
+    UInterval na = newUnsignedNot(a);
+    UInterval nb = newUnsignedNot(b);
     UInterval nr = unsignedOr(na, nb);
-    UInterval r  = newNot(nr);
+    UInterval r  = newUnsignedNot(nr);
     return r;
 }

@@ -228,7 +228,7 @@ void smartforce5(int lox, int hix, int loy, int hiy)
 
 void smartforce6(int lox, int hix, int loy, int hiy)
 {
-    UInterval r = newAnd({lox, hix}, {loy, hiy});
+    UInterval r = newUnsignedAnd({lox, hix}, {loy, hiy});
     std::cout << "smartforce6(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << r << std::endl;
 }
 
