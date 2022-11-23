@@ -3,14 +3,23 @@
 #include <iostream>  // std::cout
 #include <utility>   // std::pair, std::make_pair
 
+//==============================================================================
+// Definitions
+//==============================================================================
+
 // Intervals are represented as pairs of numbers.
 template <typename T>
 using Interval = std::pair<T, T>;
 
-using UInterval = Interval<unsigned int>;
+// We need signed and unisgned intervals
 using SInterval = Interval<int>;
+using UInterval = Interval<unsigned int>;
 
-// convention for empty interval: first > second
+//==============================================================================
+// Operations
+//==============================================================================
+
+// Empty intervals are intervals such that: first > second
 template <typename T>
 bool empty(const Interval<T>& i)
 {
@@ -39,5 +48,5 @@ template <typename T>
 std::ostream& operator<<(std::ostream& os, const Interval<T>& x)
 {
     if (empty(x)) return os << "[]";
-    return os << "[" << x.first << ", " << x.second << "]";
+    return os << "[" << x.first << ".." << x.second << "]";
 }

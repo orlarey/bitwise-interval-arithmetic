@@ -2,16 +2,6 @@
 #include "newor.hh"
 #include "Interval.hh"
 
-// bool empty(UInterval i)
-// {
-//     return i.first > i.second;
-// }
-
-// bool empty(SInterval i)
-// {
-//     return i.first > i.second;
-// }
-
 UInterval operator+(const UInterval& a, unsigned int offset)
 {
     return {a.first + offset, a.second + offset};
@@ -21,24 +11,6 @@ UInterval operator-(const UInterval& a, unsigned int offset)
 {
     return {a.first - offset, a.second - offset};
 }
-
-// // union of signed intervals
-// SInterval reunion(const SInterval& a, const SInterval& b)
-// {
-//     if (empty(a)) return b;
-//     if (empty(b)) return a;
-//     SInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
-//     return res;
-// }
-
-// // union of intervals
-// UInterval reunion(const UInterval& a, const UInterval& b)
-// {
-//     if (empty(a)) return b;
-//     if (empty(b)) return a;
-//     UInterval res = {std::min(a.first, b.first), std::max(a.second, b.second)};
-//     return res;
-// }
 
 UInterval reunion(const UInterval& a, const UInterval& b, const UInterval& c)
 {
