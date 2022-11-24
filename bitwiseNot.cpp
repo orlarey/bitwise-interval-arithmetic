@@ -37,7 +37,7 @@ UInterval smartUnsignedNot(const UInterval& a)
 
 SInterval smartSignedNot(const SInterval& a)
 {
-    return UInterval{~a.second, ~a.first};
+    return SInterval{~a.second, ~a.first};
 }
 
 void testUnsignedNot(unsigned int lo, unsigned int hi)
