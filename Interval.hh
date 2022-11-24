@@ -9,7 +9,11 @@
 
 // Intervals are represented as pairs of numbers.
 template <typename T>
-using Interval = std::pair<T, T>;
+//using Interval = std::pair<T, T>;
+struct Interval {
+  T first;
+  T second;
+};
 
 // We need signed and unisgned intervals
 using SInterval = Interval<int>;
@@ -32,7 +36,7 @@ Interval<T> operator+(const Interval<T>& a, const Interval<T>& b)
 {
     if (empty(a)) return b;
     if (empty(b)) return a;
-    return std::make_pair(std::min(a.first, b.first), std::max(a.second, b.second));
+    return {std::min(a.first, b.first), std::max(a.second, b.second)};
 }
 
 // Equality of intervals.
@@ -44,9 +48,14 @@ bool operator==(const Interval<T>& a, const Interval<T>& b)
 }
 
 // Printing intervals
-template <typename T>
-std::ostream& operator<<(std::ostream& os, const Interval<T>& x)
+inline std::ostream& operator<<(std::ostream& os, const UInterval& x)
 {
-    if (empty(x)) return os << "[]";
-    return os << "[" << x.first << ".." << x.second << "]";
+    if (empty(x)) return os << "U[]";
+    return os << "U[" << x.first << ".." << x.second << "]";
+}
+
+inline std::ostream& operator<<(std::ostream& os, const SInterval& x)
+{
+    if (empty(x)) return os << "S[]";
+    return os << "S[" << x.first << ".." << x.second << "]";
 }
