@@ -4,10 +4,8 @@
 #include <string>
 
 #include "appear.hh"
-#include "bwor.hh"
-#include "negation.hh"
-#include "newand.hh"
-#include "newor.hh"
+#include "bitwiseNot.hh"
+#include "bitwiseOr.hh"
 
 void bruteforceAnd(int lox, int hix, int loy, int hiy)
 {
@@ -226,25 +224,6 @@ void smartforce5(int lox, int hix, int loy, int hiy)
               << std::endl;
 }
 
-void smartforce6(int lox, int hix, int loy, int hiy)
-{
-    UInterval r = newUnsignedAnd({lox, hix}, {loy, hiy});
-    std::cout << "smartforce6(" << lox << ".." << hix << ", " << loy << ".." << hiy << ") -> " << r << std::endl;
-}
-
-void test(int lox, int hix, int loy, int hiy)
-{
-    std::cout << std::endl;
-    bruteforceAnd(lox, hix, loy, hiy);
-    smartforce6(lox, hix, loy, hiy);
-
-    // smartforce(lox, hix, loy, hiy);
-    smartforce2(lox, hix, loy, hiy);
-    // smartforce3(lox, hix, loy, hiy); // ne marche pas
-    smartforce4(lox, hix, loy, hiy);
-    smartforce5(lox, hix, loy, hiy);
-}
-
 void hello()
 {
     std::cout << "bitand test" << std::endl;
@@ -268,6 +247,61 @@ int main()
     // test(4, 8, 12, 13);  // Faux
     // test(4, 8, 3, 3);    // Faux
 
+    std::cout << "\n----------------" << std::endl;
+    std::cout << "testUnsignedNot\n" << std::endl;
+
+    testUnsignedNot(0, 0);
+    testUnsignedNot(0, 127);
+    testUnsignedNot(0, 128);
+    testUnsignedNot(10, 12);
+
+    std::cout << "\n----------------" << std::endl;
+    std::cout << "testSignedNot\n" << std::endl;
+
+    testSignedNot(0, 0);
+    testSignedNot(0, 127);
+    testSignedNot(0, 128);
+    testSignedNot(10, 12);
+
+    testSignedNot(-3, 127);
+    testSignedNot(-3, 128);
+    testSignedNot(-3, 12);
+
+    // std::cout << "\n----------------" << std::endl;
+    // std::cout << "testOldUnsignedOr\n" << std::endl;
+    // testUnsignedOr({0, 0xffff}, {0xff, 0xfff});
+    // std::cout << "\n----------------" << std::endl;
+
+    std::cout << "\n----------------" << std::endl;
+    std::cout << "testNewUnsignedOr\n" << std::endl;
+    testUnsignedOr(0, 0xffff, 0xff, 0xfff);
+
+    testUnsignedOr(10, 15, 0, 125);
+    testUnsignedOr(10, 15, 0, 126);
+    testUnsignedOr(10, 15, 0, 127);
+
+    testUnsignedOr(0, 5, 0, 125);
+    testUnsignedOr(0, 5, 0, 126);
+    testUnsignedOr(0, 5, 0, 127);
+
+    std::cout << "\n----------------" << std::endl;
+    std::cout << "testNewSignedOr\n" << std::endl;
+    // testSignedOr(-10, -5, 0, 127);
+    testSignedOr(-10, 5, 3, 127);
+    testSignedOr(-10, 5, -3, 127);
+    // testSignedOr(-10, 5, 0, 0xFFFFF);
+
+    // testUnsignedOr(0, 0xffff, 0xff, 0xfff);
+    // unsigned int r = hiOr2({0, 0xffff}, {0xff, 0xfff});
+    // std::cout << "hiOr2({0, 0xfff}, {0xf, 0xff}) -> " << r << std::endl;
+
+    // std::cout << "\n----------------" << std::endl;
+    // std::cout << "testSignedOr\n" << std::endl;
+
+    //    testSignedOr(-10, 5, -10, 5);
+    //    testSignedOr(-2, -1, -8, -4);
+
+#if 0
     testS2U2S({0, 127});
     testS2U2S({-10, -5});
     testS2U2S({-10, 5});
@@ -278,6 +312,7 @@ int main()
     std::cout << std::endl;
     testSignedOr({-10, 5}, {-10, 5});
     testSignedOr({-2, -1}, {-8, -4});
+#endif
     // std::cout << std::endl;
     // testSignedOr({-10, -1}, {-10, -1});
     // testSignedOr({-10, -1}, {0, 5});
