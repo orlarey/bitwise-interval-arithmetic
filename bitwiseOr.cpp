@@ -16,19 +16,20 @@ void testUnsignedOr(UNUM lo1, UNUM hi1, UNUM lo2, UNUM hi2)
 
     UInterval a{lo1, hi1};
     UInterval b{lo2, hi2};
+
     auto      t1    = high_resolution_clock::now();
-    UInterval bf    = bfUnsignedOr(a, b);
-    auto      t2    = high_resolution_clock::now();
-    auto      t3    = high_resolution_clock::now();
     UInterval smart = smartUnsignedOr(a, b);
-    auto      t4    = high_resolution_clock::now();
+    auto      t2    = high_resolution_clock::now();
+    std::cout << "sm: " << duration_cast<milliseconds>(t2 - t1).count() << "ms" << std::endl;
+    auto      t3 = high_resolution_clock::now();
+    UInterval bf = bfUnsignedOr(a, b);
+    auto      t4 = high_resolution_clock::now();
+    std::cout << "bf: " << duration_cast<milliseconds>(t4 - t3).count() << "ms" << std::endl;
 
     if (bf == smart) {
         std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
-        std::cout << "bf: " << duration_cast<milliseconds>(t2 - t1).count() << "ms" << std::endl;
-        std::cout << "sm: " << duration_cast<milliseconds>(t4 - t3).count() << "ms" << std::endl;
     } else {
-        std::cout << "ERROR: " << a << " | " << b << " = " << bf << " != " << smart << std::endl;
+        std::cout << "ERROR: " << a << " | " << b << " = " << bf << " but got " << smart << std::endl;
     }
 }
 
@@ -47,12 +48,12 @@ void testSignedOr(SNUM lo1, SNUM hi1, SNUM lo2, SNUM hi2)
 
 UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 {
-    UInterval result{std::numeric_limits<UNUM>::max(), 0};
-    for (UNUM i = a.first; i <= a.second; i++) {
-        for (UNUM j = b.first; j <= b.second; j++) {
-            UNUM r = i | j;
-            if (r < result.first) result.first = r;
-            if (r > result.second) result.second = r;
+    UInterval result = UEmpty();
+    for (unsigned int i = a.first; i <= a.second; i++) {
+        for (unsigned int j = b.first; j <= b.second; j++) {
+            unsigned int r = i | j;
+            if (r < result.first) result.first = unum(r);
+            if (r > result.second) result.second = unum(r);
         }
     }
     return result;
@@ -60,12 +61,12 @@ UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 
 SInterval bfSignedOr(const SInterval& a, const SInterval& b)
 {
-    SInterval result{SNUM_MAX, SNUM_MIN};
-    for (SNUM i = a.first; i <= a.second; i++) {
-        for (SNUM j = b.first; j <= b.second; j++) {
-            SNUM r = (SNUM)(i | j);
-            if (r < result.first) result.first = r;
-            if (r > result.second) result.second = r;
+    SInterval result = SEmpty();
+    for (int i = a.first; i <= a.second; i++) {
+        for (int j = b.first; j <= b.second; j++) {
+            int r = i | j;
+            if (r < result.first) result.first = snum(r);
+            if (r > result.second) result.second = snum(r);
         }
     }
     return result;
@@ -139,29 +140,27 @@ UNUM hiOr2(UInterval a, UInterval b)
 
 UNUM loOr2(UInterval a, UInterval b)
 {
-    // simple cases
-    if (a.first == 0 && a.second == 0) return b.first;
-    if (b.first == 0 && b.second == 0) return a.first;
+    // empty case
+    if (empty(a) || empty(b)) return 0;
 
+    // zero cases
+    if (a.first == 0) return b.first;
+    if (b.first == 0) return a.first;
+
+    // non zero cases
     auto [ma, a0, a1] = splitInterval(a);
     auto [mb, b0, b1] = splitInterval(b);
 
     assert(ma != 0 && mb != 0);
 
-    // if (ma == 0) return b.first;
-    // if (mb == 0) return a.first;
-    if (ma > mb) {
-        if (empty(a0)) return loOr2(a - ma, b) | ma;
-        return loOr2(a0, b);
-    }
-    if (mb > ma) {
-        if (empty(b0)) return loOr2(a, b - mb) | mb;
-        return loOr2(a, b0);
-    }
-    // mb == ma
-    if (empty(a0)) return loOr2(a - ma, b) | ma;
-    if (empty(b0)) return loOr2(a, b - mb) | mb;
-    return loOr2(a0, b0);
+    // obvious cases
+    if (!empty(a0) && !empty(b0)) return loOr2(a0, b0);
+    if (empty(a0) && empty(b0)) return loOr2(a1 - ma, b1 - mb) | ma | mb;
+    if (empty(a0)) return std::min(loOr2(a1 - ma, b0) | ma, loOr2(a1 - ma, b1 - mb) | ma | mb);
+    if (empty(b0)) return std::min(loOr2(a0, b1 - mb) | mb, loOr2(a1 - ma, b1 - mb) | ma | mb);
+
+    assert(false);
+    return 0;
 }
 
 //==============================================================================

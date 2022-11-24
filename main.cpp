@@ -18,14 +18,30 @@ void testSignSplit(SNUM lo, SNUM hi)
 int main()
 {
     std::cout << "\n--BITWISE OR TESTS--\n" << std::endl;
-    std::cout << "testUnsignedNot\n" << std::endl;
+    std::cout << "\ntestUnsignedNot\n" << std::endl;
 
     testUnsignedNot(0, 0);
     testUnsignedNot(0, 126);
     testUnsignedNot(0, 127);
     testUnsignedNot(10, 12);
 
+    std::cout << "\ntestSignSplit\n" << std::endl;
+
     testSignSplit(-10, 127);
+
+    std::cout << "\ntestUnsignedOr\n" << std::endl;
+
+    testUnsignedOr(10, 15, 0, 125);
+    testUnsignedOr(10, 15, 0, 126);
+    testUnsignedOr(10, 15, 0, 127);
+    testUnsignedOr(4, 5, 2, 4);
+    testUnsignedOr(4, 255, 2, 255);
+
+    std::cout << "\ntestSignedOr\n" << std::endl;
+
+    // testSignedOr(-10, 5, 3, 127);
+    // testSignedOr(-10, 5, -3, 127);
+
 #if 0
 
     std::cout << "\n----------------" << std::endl;
