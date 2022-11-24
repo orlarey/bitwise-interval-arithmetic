@@ -3,9 +3,17 @@
 #include <sstream>
 #include <string>
 
-#include "appear.hh"
 #include "bitwiseNot.hh"
 #include "bitwiseOr.hh"
+
+void testSignSplit(SNUM lo, SNUM hi)
+{
+    SInterval a{lo, hi};
+    auto [np, pp] = signSplit(a);
+    SInterval r   = signMerge(np, pp);
+
+    std::cout << "signSplit(" << a << ") = " << np << ", " << pp << " --merge-> " << r << std::endl;
+}
 
 int main()
 {
@@ -13,9 +21,12 @@ int main()
     std::cout << "testUnsignedNot\n" << std::endl;
 
     testUnsignedNot(0, 0);
+    testUnsignedNot(0, 126);
     testUnsignedNot(0, 127);
-    testUnsignedNot(0, 128);
     testUnsignedNot(10, 12);
+
+    testSignSplit(-10, 127);
+#if 0
 
     std::cout << "\n----------------" << std::endl;
     std::cout << "testSignedNot\n" << std::endl;
@@ -54,7 +65,7 @@ int main()
     // testSignedOr(-10, 5, 0, 0xFFFFF);
 
     // testUnsignedOr(0, 0xffff, 0xff, 0xfff);
-    // unsigned int r = hiOr2({0, 0xffff}, {0xff, 0xfff});
+    // UNUM r = hiOr2({0, 0xffff}, {0xff, 0xfff});
     // std::cout << "hiOr2({0, 0xfff}, {0xf, 0xff}) -> " << r << std::endl;
 
     // std::cout << "\n----------------" << std::endl;
@@ -62,6 +73,6 @@ int main()
 
     //    testSignedOr(-10, 5, -10, 5);
     //    testSignedOr(-2, -1, -8, -4);
-
+#endif
     return 0;
 }

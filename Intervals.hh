@@ -3,21 +3,23 @@
 #include <iostream>  // std::cout
 #include <utility>   // std::pair, std::make_pair
 
+#include "Numbers.hh"
+
 //==============================================================================
 // Definitions
 //==============================================================================
 
 // Intervals are represented as pairs of numbers.
 template <typename T>
-//using Interval = std::pair<T, T>;
+// using Interval = std::pair<T, T>;
 struct Interval {
-  T first;
-  T second;
+    T first;
+    T second;
 };
 
 // We need signed and unisgned intervals
-using SInterval = Interval<int>;
-using UInterval = Interval<unsigned int>;
+using SInterval = Interval<SNUM>;
+using UInterval = Interval<UNUM>;
 
 //==============================================================================
 // Operations
@@ -51,11 +53,47 @@ bool operator==(const Interval<T>& a, const Interval<T>& b)
 inline std::ostream& operator<<(std::ostream& os, const UInterval& x)
 {
     if (empty(x)) return os << "U[]";
-    return os << "U[" << x.first << ".." << x.second << "]";
+    return os << "U[" << (unsigned int)(x.first) << ".." << (unsigned int)(x.second) << "]";
 }
 
 inline std::ostream& operator<<(std::ostream& os, const SInterval& x)
 {
     if (empty(x)) return os << "S[]";
-    return os << "S[" << x.first << ".." << x.second << "]";
+    return os << "S[" << (int)(x.first) << ".." << (int)(x.second) << "]";
+}
+
+inline UInterval UEmpty()
+{
+    return {(UNUM)(UNUM_MAX), (UNUM)(UNUM_MIN)};  // and empty unsigned interval
+}
+
+inline SInterval SEmpty()
+{
+    return {(SNUM)(SNUM_MAX), (SNUM)(SNUM_MIN)};  // and empty signed interval
+}
+
+/**
+ * Split a signed interval into two unsigned intervals, for the negative and the positive part
+ */
+inline std::pair<UInterval, UInterval> signSplit(const SInterval& x)
+{
+    if (empty(x)) return {UEmpty(), UEmpty()};
+    if (x.second < 0) return {{(UNUM)(x.first), (UNUM)(x.second)}, UEmpty()};
+    if (x.first >= 0) return {UEmpty(), {(UNUM)(x.first), (UNUM)(x.second)}};
+    return {{(UNUM)(x.first), (UNUM)(-1)}, {(UNUM)(0), (UNUM)(x.second)}};
+}
+
+/**
+ * reveser of sign split
+ */
+inline SInterval signMerge(const UInterval& np, const UInterval& pp)
+{
+    if (empty(np)) {
+        if (empty(pp)) return SEmpty();
+    }
+    if (empty(pp)) {
+        return {(SNUM)(np.first), (SNUM)(np.second)};
+    }
+
+    return {(SNUM)(np.first), (SNUM)(pp.second)};
 }
