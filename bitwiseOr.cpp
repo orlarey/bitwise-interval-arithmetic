@@ -48,6 +48,7 @@ void testSignedOr(SNUM lo1, SNUM hi1, SNUM lo2, SNUM hi2)
 
 UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 {
+    if (empty(a) || empty(b)) return UEmpty();
     UInterval result = UEmpty();
     for (unsigned int i = a.first; i <= a.second; i++) {
         for (unsigned int j = b.first; j <= b.second; j++) {
@@ -61,6 +62,7 @@ UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 
 SInterval bfSignedOr(const SInterval& a, const SInterval& b)
 {
+    if (empty(a) || empty(b)) return SEmpty();
     SInterval result = SEmpty();
     for (int i = a.first; i <= a.second; i++) {
         for (int j = b.first; j <= b.second; j++) {
