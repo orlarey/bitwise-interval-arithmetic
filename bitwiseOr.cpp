@@ -64,8 +64,8 @@ SInterval bfSignedOr(const SInterval& a, const SInterval& b)
 {
     if (empty(a) || empty(b)) return SEmpty();
     SInterval result = SEmpty();
-    for (int i = a.first; i <= a.second; i++) {
-        for (int j = b.first; j <= b.second; j++) {
+    for (SNUM i = a.first; i <= a.second; i++) {
+        for (SNUM j = b.first; j <= b.second; j++) {
             int r = i | j;
             if (r < result.first) result.first = snum(r);
             if (r > result.second) result.second = snum(r);
@@ -102,14 +102,12 @@ UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
 }
 
 //==============================================================================
-UNUM hiOr2(UInterval a, UInterval b);
-
 static bool contains(const UInterval& i, UNUM x)
 {
     return (i.first <= x) && (x <= i.second);
 }
 
-UNUM TRACEDhiOr2(UInterval a, UInterval b)
+UNUM hiOr2(UInterval a, UInterval b)
 {
     // simple cases
     if (a.first == 0 && a.second == 0) return b.second;
@@ -130,14 +128,6 @@ UNUM TRACEDhiOr2(UInterval a, UInterval b)
     if (empty(a0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a1 - ma, b0)) + ma;
     if (empty(b0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a0, b1 - ma)) + ma;
     return std::max(hiOr2(a1 - ma, b1 - ma), std::max(hiOr2(a1 - ma, b0), hiOr2(a0, b1 - ma))) + ma;
-}
-
-UNUM hiOr2(UInterval a, UInterval b)
-{
-    // std::cout << "hiOr2(" << a << ", " << b << ")" << std::endl;
-    UNUM r = TRACEDhiOr2(a, b);
-    // std::cout << "hiOr2(" << a << ", " << b << ") = " << r << std::endl;
-    return r;
 }
 
 UNUM loOr2(UInterval a, UInterval b)
