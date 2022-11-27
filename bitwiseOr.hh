@@ -8,6 +8,9 @@ UInterval smartUnsignedOr(const UInterval& a, const UInterval& b);
 SInterval bfSignedOr(const SInterval& a, const SInterval& b);
 SInterval smartSignedOr(const SInterval& a, const SInterval& b);
 
+void testUnsignedOr(UInterval a, UInterval b);
+void testSignedOr(SInterval a, SInterval b);
+
 void testUnsignedOr(UNUM lo1, UNUM hi1, UNUM lo2, UNUM hi2);
 void testSignedOr(SNUM lo1, SNUM hi1, SNUM lo2, SNUM hi2);
 

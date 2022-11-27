@@ -9,4 +9,7 @@ SInterval bfSignedNot(const SInterval& a);
 SInterval smartSignedNot(const SInterval& a);
 
 void testUnsignedNot(UNUM lo, UNUM hi);
+void testUnsignedNot(const UInterval& a);
+
 void testSignedNot(SNUM lo, SNUM hi);
+void testSignedNot(const SInterval& a);

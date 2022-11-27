@@ -1,3 +1,5 @@
+#pragma once
+
 // We need signed and unsigned numbers. But in order to test with brute force
 // the various algorithm in a limited amount of time, we can use full ints.
 

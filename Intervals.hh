@@ -90,6 +90,7 @@ inline SInterval signMerge(const UInterval& np, const UInterval& pp)
 {
     if (empty(np)) {
         if (empty(pp)) return SEmpty();
+        return {(SNUM)(pp.first), (SNUM)(pp.second)};
     }
     if (empty(pp)) {
         return {(SNUM)(np.first), (SNUM)(np.second)};

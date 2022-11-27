@@ -1,0 +1,5 @@
+testSignedOr
+ERROR: S[59..69] | S[45..57] = S[59..125] but we got S[-1..125]
+ERROR: S[35..114] | S[21..108] = S[35..127] but we got S[-1..127]
+ERROR: S[60..114] | S[16..124] = S[60..127] but we got S[-1..127]
+ERROR: S[67..87] | S[9..109] = S[67..127] but we got S[-1..127]
