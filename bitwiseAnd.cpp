@@ -21,7 +21,7 @@ void testUnsignedAnd(UInterval a, UInterval b)
     UInterval smart = smartUnsignedAnd(a, b);
     UInterval bf    = bfUnsignedAnd(a, b);
     if (bf == smart) {
-        std::cout << "OK: " << a << " & " << b << " = " << bf << std::endl;
+        // std::cout << "OK: " << a << " & " << b << " = " << bf << std::endl;
     } else {
         std::cout << "ERROR: " << a << " & " << b << " = " << bf << " but got " << smart << std::endl;
     }
@@ -39,7 +39,7 @@ void testSignedAnd(SInterval a, SInterval b)
     SInterval bf    = bfSignedAnd(a, b);
     SInterval smart = smartSignedAnd(a, b);
     if (bf == smart) {
-        std::cout << "OK: " << a << " & " << b << " = " << bf << std::endl;
+        // std::cout << "OK: " << a << " & " << b << " = " << bf << std::endl;
     } else {
         std::cout << "ERROR: " << a << " & " << b << " = " << bf << " but we got " << smart << std::endl;
     }

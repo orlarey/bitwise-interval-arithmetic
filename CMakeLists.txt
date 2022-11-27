@@ -9,6 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 # add the executable
-add_executable(test main.cpp Numbers.hh Intervals.hh bitwiseNot.hh bitwiseNot.cpp bitwiseOr.hh bitwiseOr.cpp bitwiseAnd.hh bitwiseAnd.cpp random.hh random.cpp)
+add_executable(test main.cpp Numbers.hh Intervals.hh bitwiseNot.hh bitwiseNot.cpp bitwiseOr.hh bitwiseOr.cpp bitwiseAnd.hh bitwiseAnd.cpp bitwiseXOr.hh bitwiseXOr.cpp random.hh random.cpp)
 
 

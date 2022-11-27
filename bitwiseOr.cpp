@@ -20,7 +20,7 @@ void testUnsignedOr(UInterval a, UInterval b)
     UInterval bf    = bfUnsignedOr(a, b);
 
     if (bf == smart) {
-        std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
+        // std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
     } else {
         std::cout << "ERROR: " << a << " | " << b << " = " << bf << " but got " << smart << std::endl;
     }
@@ -38,7 +38,7 @@ void testSignedOr(SInterval a, SInterval b)
     SInterval bf    = bfSignedOr(a, b);
     SInterval smart = smartSignedOr(a, b);
     if (bf == smart) {
-        std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
+        // std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
     } else {
         std::cout << "ERROR: " << a << " | " << b << " = " << bf << " but we got " << smart << std::endl;
     }

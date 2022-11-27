@@ -3,3 +3,8 @@ ERROR: S[59..69] | S[45..57] = S[59..125] but we got S[-1..125]
 ERROR: S[35..114] | S[21..108] = S[35..127] but we got S[-1..127]
 ERROR: S[60..114] | S[16..124] = S[60..127] but we got S[-1..127]
 ERROR: S[67..87] | S[9..109] = S[67..127] but we got S[-1..127]
+
+testSignedXOr
+ERROR: S[-35..84] ^ S[-32..9] = S[-96..93] but we got S[-119..93]
+ERROR: S[-91..56] ^ S[-30..0] = S[-91..95] but we got S[-128..95]
+ERROR: S[-15..7] ^ S[-95..106] = S[-112..111] but we got S[-128..111]

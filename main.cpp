@@ -6,6 +6,7 @@
 #include "bitwiseAnd.hh"
 #include "bitwiseNot.hh"
 #include "bitwiseOr.hh"
+#include "bitwiseXOr.hh"
 #include "random.hh"
 
 void testSignSplit(SNUM lo, SNUM hi)
@@ -16,6 +17,8 @@ void testSignSplit(SNUM lo, SNUM hi)
 
     std::cout << "signSplit(" << a << ") = " << np << ", " << pp << " --merge-> " << r << std::endl;
 }
+
+const int N = 100;
 
 int main()
 {
@@ -40,16 +43,22 @@ int main()
     // for (int i = 0; i < 10; i++) testSignedNot(srandom());
 
     std::cout << "testUnsignedOr" << std::endl;
-    for (int i = 0; i < 10; i++) testUnsignedOr(urandom(), urandom());
+    for (int i = 0; i < N; i++) testUnsignedOr(urandom(), urandom());
 
     std::cout << "testSignedOr" << std::endl;
-    for (int i = 0; i < 10; i++) testSignedOr(srandom(), srandom());
+    for (int i = 0; i < N; i++) testSignedOr(srandom(), srandom());
 
     std::cout << "testUnsignedAnd" << std::endl;
-    for (int i = 0; i < 10; i++) testUnsignedAnd(urandom(), urandom());
+    for (int i = 0; i < N; i++) testUnsignedAnd(urandom(), urandom());
 
     std::cout << "testSignedAnd" << std::endl;
-    for (int i = 0; i < 10; i++) testSignedAnd(srandom(), srandom());
+    for (int i = 0; i < N; i++) testSignedAnd(srandom(), srandom());
+
+    std::cout << "testUnsignedXOr" << std::endl;
+    for (int i = 0; i < N; i++) testUnsignedXOr(urandom(), urandom());
+
+    std::cout << "testSignedXOr" << std::endl;
+    for (int i = 0; i < N; i++) testSignedXOr(srandom(), srandom());
 
     return 0;
 }
