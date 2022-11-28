@@ -11,7 +11,7 @@
 
 #include "bitwiseXOr.hh"
 
-void testUnsignedXOr(UNUM lo1, UNUM hi1, UNUM lo2, UNUM hi2)
+void testUnsignedXOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
 {
     UInterval a{lo1, hi1};
     UInterval b{lo2, hi2};
@@ -29,7 +29,7 @@ void testUnsignedXOr(UInterval a, UInterval b)
     }
 }
 
-void testSignedXOr(SNUM lo1, SNUM hi1, SNUM lo2, SNUM hi2)
+void testSignedXOr(int lo1, int hi1, int lo2, int hi2)
 {
     SInterval a{lo1, hi1};
     SInterval b{lo2, hi2};
@@ -54,8 +54,8 @@ UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b)
     for (unsigned int i = a.first; i <= a.second; i++) {
         for (unsigned int j = b.first; j <= b.second; j++) {
             unsigned int r = i ^ j;
-            if (r < result.first) result.first = unum(r);
-            if (r > result.second) result.second = unum(r);
+            if (r < result.first) result.first = (unsigned int)(r);
+            if (r > result.second) result.second = (unsigned int)(r);
         }
     }
     return result;
@@ -68,8 +68,8 @@ SInterval bfSignedXOr(const SInterval& a, const SInterval& b)
     for (int i = a.first; i <= a.second; i++) {
         for (int j = b.first; j <= b.second; j++) {
             int r = i ^ j;
-            if (r < result.first) result.first = snum(r);
-            if (r > result.second) result.second = snum(r);
+            if (r < result.first) result.first = (int)(r);
+            if (r > result.second) result.second = (int)(r);
         }
     }
     return result;

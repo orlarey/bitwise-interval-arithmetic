@@ -6,10 +6,10 @@
 UInterval bfUnsignedNot(const UInterval& a)
 {
     // r is empty by default
-    UInterval r{std::numeric_limits<UNUM>::max(), 0};
+    UInterval r{std::numeric_limits<unsigned int>::max(), 0};
 
-    for (UNUM i = a.first; i <= a.second; ++i) {
-        UNUM ni = ~i;
+    for (unsigned int i = a.first; i <= a.second; ++i) {
+        unsigned int ni = ~i;
         if (ni < r.first) r.first = ni;
         if (ni > r.second) r.second = ni;
     }
@@ -20,7 +20,7 @@ UInterval bfUnsignedNot(const UInterval& a)
 SInterval bfSignedNot(const SInterval& a)
 {
     // r is empty by default
-    SInterval r{SNUM_MAX, SNUM_MIN};
+    SInterval r = SEmpty();
 
     for (int i = a.first; i <= a.second; ++i) {
         int ni = ~i;
@@ -32,15 +32,15 @@ SInterval bfSignedNot(const SInterval& a)
 
 UInterval smartUnsignedNot(const UInterval& a)
 {
-    return UInterval{(UNUM)(~a.second), (UNUM)(~a.first)};
+    return UInterval{(unsigned int)(~a.second), (unsigned int)(~a.first)};
 }
 
 SInterval smartSignedNot(const SInterval& a)
 {
-    return SInterval{(SNUM)(~a.second), (SNUM)(~a.first)};
+    return SInterval{(int)(~a.second), (int)(~a.first)};
 }
 
-void testUnsignedNot(UNUM lo, UNUM hi)
+void testUnsignedNot(unsigned int lo, unsigned int hi)
 {
     UInterval a{lo, hi};
     UInterval r1 = bfUnsignedNot(a);
@@ -67,7 +67,7 @@ void testUnsignedNot(const UInterval& a)
     }
 }
 
-void testSignedNot(SNUM lo, SNUM hi)
+void testSignedNot(int lo, int hi)
 {
     SInterval a{lo, hi};
     SInterval r1 = bfSignedNot(a);

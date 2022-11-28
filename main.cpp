@@ -1,28 +1,43 @@
 
 #include <iostream>
+#include <memory>
+#include <random>
 #include <sstream>
 #include <string>
 
+#include "Intervals.hh"
 #include "bitwiseAnd.hh"
 #include "bitwiseNot.hh"
 #include "bitwiseOr.hh"
 #include "bitwiseXOr.hh"
-#include "random.hh"
 
-void testSignSplit(SNUM lo, SNUM hi)
+// generate random intervals for test purposes
+
+constexpr int N          = 100;
+constexpr int TEST_LIMIT = 4096;
+
+class RandomIntervals
 {
-    SInterval a{lo, hi};
-    auto [np, pp] = signSplit(a);
-    SInterval r   = signMerge(np, pp);
+    std::unique_ptr<std::mt19937> rng;
 
-    std::cout << "signSplit(" << a << ") = " << np << ", " << pp << " --merge-> " << r << std::endl;
-}
+    std::uniform_int_distribution<std::mt19937::result_type> udist;
+    std::uniform_int_distribution<std::mt19937::result_type> sdist;
 
-const int N = 100;
+   public:
+    RandomIntervals() : udist(0, 2 * TEST_LIMIT + 1), sdist(-TEST_LIMIT - 1, TEST_LIMIT)
+    {
+        std::random_device rd;
+        rng = std::make_unique<std::mt19937>(rd());
+    }
+    SInterval srandom() { return {(int)(sdist(*rng)), (int)(sdist(*rng))}; }
+    UInterval urandom() { return {udist(*rng), udist(*rng)}; }
+};
 
 int main()
 {
-    std::cout << "\n--BITWISE OR TESTS--\n" << std::endl;
+    RandomIntervals R;
+
+    std::cout << "\n--BITWISE OPERATIONS ON INTERVALS TESTS--\n" << std::endl;
 
     std::cout << "former errors that should be solved" << std::endl;
     testSignedOr(59, 69, 45, 57);
@@ -30,35 +45,23 @@ int main()
     testSignedOr(60, 114, 16, 124);
     testSignedOr(67, 87, 9, 109);
 
-    // std::cout << "urandom()" << std::endl;
-    // for (int i = 0; i < 10; i++) std::cout << urandom() << std::endl;
-    // std::cout << "srandom()" << std::endl;
-    // for (int i = 0; i < 10; i++) std::cout << srandom() << std::endl;
-    // std::cout << "\ntestUnsignedNot\n" << std::endl;
+    std::cout << "\ntestUnsignedOr" << std::endl;
+    for (int i = 0; i < N; i++) testUnsignedOr(R.urandom(), R.urandom());
 
-    // std::cout << "testUnsignedNot" << std::endl;
-    // for (int i = 0; i < 10; i++) testUnsignedNot(urandom());
+    std::cout << "\ntestSignedOr" << std::endl;
+    for (int i = 0; i < N; i++) testSignedOr(R.srandom(), R.srandom());
 
-    // std::cout << "testSignedNot" << std::endl;
-    // for (int i = 0; i < 10; i++) testSignedNot(srandom());
+    std::cout << "\ntestUnsignedAnd" << std::endl;
+    for (int i = 0; i < N; i++) testUnsignedAnd(R.urandom(), R.urandom());
 
-    std::cout << "testUnsignedOr" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedOr(urandom(), urandom());
+    std::cout << "\ntestSignedAnd" << std::endl;
+    for (int i = 0; i < N; i++) testSignedAnd(R.srandom(), R.srandom());
 
-    std::cout << "testSignedOr" << std::endl;
-    for (int i = 0; i < N; i++) testSignedOr(srandom(), srandom());
+    std::cout << "\ntestUnsignedXOr" << std::endl;
+    for (int i = 0; i < N; i++) testUnsignedXOr(R.urandom(), R.urandom());
 
-    std::cout << "testUnsignedAnd" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedAnd(urandom(), urandom());
-
-    std::cout << "testSignedAnd" << std::endl;
-    for (int i = 0; i < N; i++) testSignedAnd(srandom(), srandom());
-
-    std::cout << "testUnsignedXOr" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedXOr(urandom(), urandom());
-
-    std::cout << "testSignedXOr" << std::endl;
-    for (int i = 0; i < N; i++) testSignedXOr(srandom(), srandom());
+    std::cout << "\ntestSignedXOr" << std::endl;
+    for (int i = 0; i < N; i++) testSignedXOr(R.srandom(), R.srandom());
 
     return 0;
 }

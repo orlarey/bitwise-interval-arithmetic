@@ -7,7 +7,7 @@
 #include "Intervals.hh"
 #include "bitwiseOr.hh"
 
-void testUnsignedOr(UNUM lo1, UNUM hi1, UNUM lo2, UNUM hi2)
+void testUnsignedOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
 {
     UInterval a{lo1, hi1};
     UInterval b{lo2, hi2};
@@ -26,7 +26,7 @@ void testUnsignedOr(UInterval a, UInterval b)
     }
 }
 
-void testSignedOr(SNUM lo1, SNUM hi1, SNUM lo2, SNUM hi2)
+void testSignedOr(int lo1, int hi1, int lo2, int hi2)
 {
     SInterval a{lo1, hi1};
     SInterval b{lo2, hi2};
@@ -51,8 +51,8 @@ UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
     for (unsigned int i = a.first; i <= a.second; i++) {
         for (unsigned int j = b.first; j <= b.second; j++) {
             unsigned int r = i | j;
-            if (r < result.first) result.first = unum(r);
-            if (r > result.second) result.second = unum(r);
+            if (r < result.first) result.first = (unsigned int)(r);
+            if (r > result.second) result.second = (unsigned int)(r);
         }
     }
     return result;
@@ -65,8 +65,8 @@ SInterval bfSignedOr(const SInterval& a, const SInterval& b)
     for (int i = a.first; i <= a.second; i++) {
         for (int j = b.first; j <= b.second; j++) {
             int r = i | j;
-            if (r < result.first) result.first = snum(r);
-            if (r > result.second) result.second = snum(r);
+            if (r < result.first) result.first = (int)(r);
+            if (r > result.second) result.second = (int)(r);
         }
     }
     return result;
@@ -74,13 +74,13 @@ SInterval bfSignedOr(const SInterval& a, const SInterval& b)
 
 //==============================================================================
 // main algorithm
-UInterval operator+(const UInterval& a, UNUM offset);
-UInterval operator-(const UInterval& a, UNUM offset);
-UNUM      loOr2(UInterval a, UInterval b);
-UNUM      hiOr2(UInterval a, UInterval b);
+UInterval    operator+(const UInterval& a, unsigned int offset);
+UInterval    operator-(const UInterval& a, unsigned int offset);
+unsigned int loOr2(UInterval a, UInterval b);
+unsigned int hiOr2(UInterval a, UInterval b);
 
 // split interval according to its msb
-std::tuple<UNUM, UInterval, UInterval> splitInterval(UInterval x);
+std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x);
 
 UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
 {
@@ -93,12 +93,12 @@ UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
 }
 
 //==============================================================================
-static bool contains(const UInterval& i, UNUM x)
+static bool contains(const UInterval& i, unsigned int x)
 {
     return (i.first <= x) && (x <= i.second);
 }
 
-UNUM hiOr2(UInterval a, UInterval b)
+unsigned int hiOr2(UInterval a, UInterval b)
 {
     // simple cases
     if (a.first == 0 && a.second == 0) return b.second;
@@ -121,7 +121,7 @@ UNUM hiOr2(UInterval a, UInterval b)
     return std::max(hiOr2(a1 - ma, b1 - ma), std::max(hiOr2(a1 - ma, b0), hiOr2(a0, b1 - ma))) + ma;
 }
 
-UNUM loOr2(UInterval a, UInterval b)
+unsigned int loOr2(UInterval a, UInterval b)
 {
     // empty case
     if (empty(a) || empty(b)) return 0;
@@ -154,17 +154,17 @@ UNUM loOr2(UInterval a, UInterval b)
 //==============================================================================
 // details
 
-UInterval operator+(const UInterval& a, UNUM offset)
+UInterval operator+(const UInterval& a, unsigned int offset)
 {
-    return {(UNUM)(a.first + offset), (UNUM)(a.second + offset)};
+    return {(unsigned int)(a.first + offset), (unsigned int)(a.second + offset)};
 }
 
-UInterval operator-(const UInterval& a, UNUM offset)
+UInterval operator-(const UInterval& a, unsigned int offset)
 {
-    return {(UNUM)(a.first - offset), (UNUM)(a.second - offset)};
+    return {(unsigned int)(a.first - offset), (unsigned int)(a.second - offset)};
 }
 
-UNUM msb32(UNUM x)
+unsigned int msb32(unsigned int x)
 {
     x |= (x >> 1);
     x |= (x >> 2);
@@ -175,14 +175,14 @@ UNUM msb32(UNUM x)
 }
 
 // split interval according to its msb
-std::tuple<UNUM, UInterval, UInterval> splitInterval(UInterval x)
+std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x)
 {
     if (x.first == 0 && x.second == 0) return {0, {1, 0}, x};  // special case, no msb
-    UNUM m = msb32(x.second);
+    unsigned int m = msb32(x.second);
     assert(m > 0);
 
     if (m <= x.first) return {m, {1, 0}, x};  // no msb in the interval
-    return {m, {x.first, (UNUM)(m - 1)}, {m, x.second}};
+    return {m, {x.first, (unsigned int)(m - 1)}, {m, x.second}};
 }
 
 SInterval smartSignedOr(const SInterval& a, const SInterval& b)

@@ -3,7 +3,7 @@
 #include <iostream>  // std::cout
 #include <utility>   // std::pair, std::make_pair
 
-#include "Numbers.hh"
+// #include "Numbers.hh"
 
 //==============================================================================
 // Definitions
@@ -11,15 +11,14 @@
 
 // Intervals are represented as pairs of numbers.
 template <typename T>
-// using Interval = std::pair<T, T>;
 struct Interval {
     T first;
     T second;
 };
 
 // We need signed and unisgned intervals
-using SInterval = Interval<SNUM>;
-using UInterval = Interval<UNUM>;
+using SInterval = Interval<int>;
+using UInterval = Interval<unsigned int>;
 
 //==============================================================================
 // Operations
@@ -64,12 +63,12 @@ inline std::ostream& operator<<(std::ostream& os, const SInterval& x)
 
 inline UInterval UEmpty()
 {
-    return {(UNUM)(UNUM_MAX), (UNUM)(UNUM_MIN)};  // and empty unsigned interval
+    return {UINT_MAX, 0};  // and empty unsigned interval
 }
 
 inline SInterval SEmpty()
 {
-    return {(SNUM)(SNUM_MAX), (SNUM)(SNUM_MIN)};  // and empty signed interval
+    return {INT_MAX, INT_MIN};  // and empty signed interval
 }
 
 /**
@@ -77,10 +76,14 @@ inline SInterval SEmpty()
  */
 inline std::pair<UInterval, UInterval> signSplit(const SInterval& x)
 {
+    // if (empty(x)) return {UEmpty(), UEmpty()};
+    // if (x.second < 0) return {{(unsigned int)(x.first), (unsigned int)(x.second)}, UEmpty()};
+    // if (x.first >= 0) return {UEmpty(), {(unsigned int)(x.first), (unsigned int)(x.second)}};
+    // return {{(unsigned int)(x.first), (unsigned int)(-1)}, {(unsigned int)(0), (unsigned int)(x.second)}};
     if (empty(x)) return {UEmpty(), UEmpty()};
-    if (x.second < 0) return {{(UNUM)(x.first), (UNUM)(x.second)}, UEmpty()};
-    if (x.first >= 0) return {UEmpty(), {(UNUM)(x.first), (UNUM)(x.second)}};
-    return {{(UNUM)(x.first), (UNUM)(-1)}, {(UNUM)(0), (UNUM)(x.second)}};
+    if (x.second < 0) return {{(unsigned int)(x.first), (unsigned int)(x.second)}, UEmpty()};
+    if (x.first >= 0) return {UEmpty(), {(unsigned int)(x.first), (unsigned int)(x.second)}};
+    return {{(unsigned int)(x.first), (unsigned int)(-1)}, {(unsigned int)(0), (unsigned int)(x.second)}};
 }
 
 /**
@@ -90,11 +93,11 @@ inline SInterval signMerge(const UInterval& np, const UInterval& pp)
 {
     if (empty(np)) {
         if (empty(pp)) return SEmpty();
-        return {(SNUM)(pp.first), (SNUM)(pp.second)};
+        return {(int)(pp.first), (int)(pp.second)};
     }
     if (empty(pp)) {
-        return {(SNUM)(np.first), (SNUM)(np.second)};
+        return {(int)(np.first), (int)(np.second)};
     }
 
-    return {(SNUM)(np.first), (SNUM)(pp.second)};
+    return {(int)(np.first), (int)(pp.second)};
 }
