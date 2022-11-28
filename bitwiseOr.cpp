@@ -46,13 +46,13 @@ void testSignedOr(SInterval a, SInterval b)
 
 UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 {
-    if (empty(a) || empty(b)) return UEmpty();
-    UInterval result = UEmpty();
-    for (unsigned int i = a.first; i <= a.second; i++) {
-        for (unsigned int j = b.first; j <= b.second; j++) {
+    if (isEmpty(a) || isEmpty(b)) return UEMPTY;
+    UInterval result = UEMPTY;
+    for (unsigned int i = a.lo; i <= a.hi; i++) {
+        for (unsigned int j = b.lo; j <= b.hi; j++) {
             unsigned int r = i | j;
-            if (r < result.first) result.first = (unsigned int)(r);
-            if (r > result.second) result.second = (unsigned int)(r);
+            if (r < result.lo) result.lo = (unsigned int)(r);
+            if (r > result.hi) result.hi = (unsigned int)(r);
         }
     }
     return result;
@@ -60,13 +60,13 @@ UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)
 
 SInterval bfSignedOr(const SInterval& a, const SInterval& b)
 {
-    if (empty(a) || empty(b)) return SEmpty();
-    SInterval result = SEmpty();
-    for (int i = a.first; i <= a.second; i++) {
-        for (int j = b.first; j <= b.second; j++) {
+    if (isEmpty(a) || isEmpty(b)) return SEMPTY;
+    SInterval result = SEMPTY;
+    for (int i = a.lo; i <= a.hi; i++) {
+        for (int j = b.lo; j <= b.hi; j++) {
             int r = i | j;
-            if (r < result.first) result.first = (int)(r);
-            if (r > result.second) result.second = (int)(r);
+            if (r < result.lo) result.lo = (int)(r);
+            if (r > result.hi) result.hi = (int)(r);
         }
     }
     return result;
@@ -86,8 +86,8 @@ UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
 {
     if (a == UInterval{0, 0}) return b;
     if (b == UInterval{0, 0}) return a;
-    if (empty(a)) return a;
-    if (empty(b)) return b;
+    if (isEmpty(a)) return a;
+    if (isEmpty(b)) return b;
     UInterval r{loOr2(a, b), hiOr2(a, b)};
     return r;
 }
@@ -95,14 +95,14 @@ UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
 //==============================================================================
 static bool contains(const UInterval& i, unsigned int x)
 {
-    return (i.first <= x) && (x <= i.second);
+    return (i.lo <= x) && (x <= i.hi);
 }
 
 unsigned int hiOr2(UInterval a, UInterval b)
 {
     // simple cases
-    if (a.first == 0 && a.second == 0) return b.second;
-    if (b.first == 0 && b.second == 0) return a.second;
+    if (a.lo == 0 && a.hi == 0) return b.hi;
+    if (b.lo == 0 && b.hi == 0) return a.hi;
     // analyze and split the intervals
     auto [ma, a0, a1] = splitInterval(a);
     auto [mb, b0, b1] = splitInterval(b);
@@ -115,20 +115,20 @@ unsigned int hiOr2(UInterval a, UInterval b)
         return hiOr2(a1 - ma, b) + ma;
     }
     // ma == mb != 0
-    if (empty(a0) && empty(b0)) return hiOr2(a1 - ma, b1 - ma) + ma;
-    if (empty(a0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a1 - ma, b0)) + ma;
-    if (empty(b0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a0, b1 - ma)) + ma;
+    if (isEmpty(a0) && isEmpty(b0)) return hiOr2(a1 - ma, b1 - ma) + ma;
+    if (isEmpty(a0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a1 - ma, b0)) + ma;
+    if (isEmpty(b0)) return std::max(hiOr2(a1 - ma, b1 - ma), hiOr2(a0, b1 - ma)) + ma;
     return std::max(hiOr2(a1 - ma, b1 - ma), std::max(hiOr2(a1 - ma, b0), hiOr2(a0, b1 - ma))) + ma;
 }
 
 unsigned int loOr2(UInterval a, UInterval b)
 {
-    // empty case
-    if (empty(a) || empty(b)) return 0;
+    // isEmpty case
+    if (isEmpty(a) || isEmpty(b)) return 0;
 
     // zero cases
-    if (a.first == 0) return b.first;
-    if (b.first == 0) return a.first;
+    if (a.lo == 0) return b.lo;
+    if (b.lo == 0) return a.lo;
 
     // non zero cases
     auto [ma, a0, a1] = splitInterval(a);
@@ -137,17 +137,17 @@ unsigned int loOr2(UInterval a, UInterval b)
 
     // obvious cases
     if (ma > mb) {
-        if (empty(a0)) return loOr2(a1 - ma, b) | ma;  // ma bit unavoidable !
+        if (isEmpty(a0)) return loOr2(a1 - ma, b) | ma;  // ma bit unavoidable !
         return loOr2(a0, b);
     }
     if (mb > ma) {
-        if (empty(b0)) return loOr2(a, b1 - mb) | mb;
+        if (isEmpty(b0)) return loOr2(a, b1 - mb) | mb;
         return loOr2(a, b0);
     }
     // ma == mb != 0
-    if (!empty(a0) && !empty(b0)) return loOr2(a0, b0);               // obvious case !
-    if (empty(a0) && empty(b0)) return loOr2(a1 - ma, b1 - ma) | ma;  // ma bit unavoidable !
-    if (empty(a0)) return std::min(loOr2(a1 - ma, b0) | ma, loOr2(a1 - ma, b1 - ma) | ma);
+    if (!isEmpty(a0) && !isEmpty(b0)) return loOr2(a0, b0);               // obvious case !
+    if (isEmpty(a0) && isEmpty(b0)) return loOr2(a1 - ma, b1 - ma) | ma;  // ma bit unavoidable !
+    if (isEmpty(a0)) return std::min(loOr2(a1 - ma, b0) | ma, loOr2(a1 - ma, b1 - ma) | ma);
     return std::min(loOr2(a0, b1 - mb) | mb, loOr2(a1 - ma, b1 - ma) | ma);
 }
 
@@ -156,12 +156,12 @@ unsigned int loOr2(UInterval a, UInterval b)
 
 UInterval operator+(const UInterval& a, unsigned int offset)
 {
-    return {(unsigned int)(a.first + offset), (unsigned int)(a.second + offset)};
+    return {(unsigned int)(a.lo + offset), (unsigned int)(a.hi + offset)};
 }
 
 UInterval operator-(const UInterval& a, unsigned int offset)
 {
-    return {(unsigned int)(a.first - offset), (unsigned int)(a.second - offset)};
+    return {(unsigned int)(a.lo - offset), (unsigned int)(a.hi - offset)};
 }
 
 unsigned int msb32(unsigned int x)
@@ -177,12 +177,12 @@ unsigned int msb32(unsigned int x)
 // split interval according to its msb
 std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x)
 {
-    if (x.first == 0 && x.second == 0) return {0, {1, 0}, x};  // special case, no msb
-    unsigned int m = msb32(x.second);
+    if (x.lo == 0 && x.hi == 0) return {0, {1, 0}, x};  // special case, no msb
+    unsigned int m = msb32(x.hi);
     assert(m > 0);
 
-    if (m <= x.first) return {m, {1, 0}, x};  // no msb in the interval
-    return {m, {x.first, (unsigned int)(m - 1)}, {m, x.second}};
+    if (m <= x.lo) return {m, {1, 0}, x};  // no msb in the interval
+    return {m, {x.lo, (unsigned int)(m - 1)}, {m, x.hi}};
 }
 
 SInterval smartSignedOr(const SInterval& a, const SInterval& b)

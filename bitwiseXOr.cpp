@@ -49,13 +49,13 @@ void testSignedXOr(SInterval a, SInterval b)
 
 UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b)
 {
-    if (empty(a) || empty(b)) return UEmpty();
-    UInterval result = UEmpty();
-    for (unsigned int i = a.first; i <= a.second; i++) {
-        for (unsigned int j = b.first; j <= b.second; j++) {
+    if (isEmpty(a) || isEmpty(b)) return UEMPTY;
+    UInterval result = UEMPTY;
+    for (unsigned int i = a.lo; i <= a.hi; i++) {
+        for (unsigned int j = b.lo; j <= b.hi; j++) {
             unsigned int r = i ^ j;
-            if (r < result.first) result.first = (unsigned int)(r);
-            if (r > result.second) result.second = (unsigned int)(r);
+            if (r < result.lo) result.lo = (unsigned int)(r);
+            if (r > result.hi) result.hi = (unsigned int)(r);
         }
     }
     return result;
@@ -63,13 +63,13 @@ UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b)
 
 SInterval bfSignedXOr(const SInterval& a, const SInterval& b)
 {
-    if (empty(a) || empty(b)) return SEmpty();
-    SInterval result = SEmpty();
-    for (int i = a.first; i <= a.second; i++) {
-        for (int j = b.first; j <= b.second; j++) {
+    if (isEmpty(a) || isEmpty(b)) return SEMPTY;
+    SInterval result = SEMPTY;
+    for (int i = a.lo; i <= a.hi; i++) {
+        for (int j = b.lo; j <= b.hi; j++) {
             int r = i ^ j;
-            if (r < result.first) result.first = (int)(r);
-            if (r > result.second) result.second = (int)(r);
+            if (r < result.lo) result.lo = (int)(r);
+            if (r > result.hi) result.hi = (int)(r);
         }
     }
     return result;

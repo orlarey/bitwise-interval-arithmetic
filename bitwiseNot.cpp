@@ -5,13 +5,13 @@
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedNot(const UInterval& a)
 {
-    // r is empty by default
+    // r is isEmpty by default
     UInterval r{std::numeric_limits<unsigned int>::max(), 0};
 
-    for (unsigned int i = a.first; i <= a.second; ++i) {
+    for (unsigned int i = a.lo; i <= a.hi; ++i) {
         unsigned int ni = ~i;
-        if (ni < r.first) r.first = ni;
-        if (ni > r.second) r.second = ni;
+        if (ni < r.lo) r.lo = ni;
+        if (ni > r.hi) r.hi = ni;
     }
     return r;
 }
@@ -19,25 +19,25 @@ UInterval bfUnsignedNot(const UInterval& a)
 // computes bitwise not on UNUMervals by brute force
 SInterval bfSignedNot(const SInterval& a)
 {
-    // r is empty by default
-    SInterval r = SEmpty();
+    // r is isEmpty by default
+    SInterval r = SEMPTY;
 
-    for (int i = a.first; i <= a.second; ++i) {
+    for (int i = a.lo; i <= a.hi; ++i) {
         int ni = ~i;
-        if (ni < r.first) r.first = ni;
-        if (ni > r.second) r.second = ni;
+        if (ni < r.lo) r.lo = ni;
+        if (ni > r.hi) r.hi = ni;
     }
     return r;
 }
 
 UInterval smartUnsignedNot(const UInterval& a)
 {
-    return UInterval{(unsigned int)(~a.second), (unsigned int)(~a.first)};
+    return UInterval{(unsigned int)(~a.hi), (unsigned int)(~a.lo)};
 }
 
 SInterval smartSignedNot(const SInterval& a)
 {
-    return SInterval{(int)(~a.second), (int)(~a.first)};
+    return SInterval{(int)(~a.hi), (int)(~a.lo)};
 }
 
 void testUnsignedNot(unsigned int lo, unsigned int hi)
