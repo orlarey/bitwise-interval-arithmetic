@@ -8,8 +8,6 @@ UInterval smartUnsignedNot(const UInterval& a);
 SInterval bfSignedNot(const SInterval& a);
 SInterval smartSignedNot(const SInterval& a);
 
-void testUnsignedNot(unsigned int lo, unsigned int hi);
 void testUnsignedNot(const UInterval& a);
 
-void testSignedNot(int lo, int hi);
 void testSignedNot(const SInterval& a);

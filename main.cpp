@@ -39,12 +39,6 @@ int main()
 
     std::cout << "\n--BITWISE OPERATIONS ON INTERVALS TESTS--\n" << std::endl;
 
-    std::cout << "former errors that should be solved" << std::endl;
-    testSignedOr(59, 69, 45, 57);
-    testSignedOr(35, 114, 21, 108);
-    testSignedOr(60, 114, 16, 124);
-    testSignedOr(67, 87, 9, 109);
-
     std::cout << "\ntestUnsignedOr" << std::endl;
     for (int i = 0; i < N; i++) testUnsignedOr(R.urandom(), R.urandom());
 
