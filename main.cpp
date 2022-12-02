@@ -30,8 +30,8 @@ class RandomIntervals
         std::random_device rd;
         rng = std::make_unique<std::mt19937>(rd());
     }
-    SInterval srandom() { return {(int)(sdist(*rng)), (int)(sdist(*rng))}; }
-    UInterval urandom() { return {udist(*rng), udist(*rng)}; }
+    SInterval srandom() { return {static_cast<int>(sdist(*rng)), static_cast<int>(sdist(*rng))}; }
+    UInterval urandom() { return {static_cast<unsigned int>(udist(*rng)), static_cast<unsigned int>(udist(*rng))}; }
 };
 
 int main()
