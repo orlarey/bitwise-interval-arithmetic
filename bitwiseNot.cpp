@@ -1,6 +1,6 @@
 #include <limits>
 
-#include "Intervals.hh"
+#include "bitwiseIntervals.hh"
 #include "bitwiseOperations.hh"
 
 // computes bitwise not on UNUMervals by brute force

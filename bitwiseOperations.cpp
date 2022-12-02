@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include "Intervals.hh"
+#include "bitwiseIntervals.hh"
 #include "bitwiseOperations.hh"
 
 UInterval bitwiseUnsignedNot(const UInterval& a)
@@ -15,13 +15,12 @@ SInterval bitwiseSignedNot(const SInterval& a)
 
 //==============================================================================
 // main algorithm
-UInterval    operator+(const UInterval& a, unsigned int offset);
-UInterval    operator-(const UInterval& a, unsigned int offset);
-unsigned int loOr2(UInterval a, UInterval b);
-unsigned int hiOr2(UInterval a, UInterval b);
-
-// split interval according to its msb
+UInterval                                      operator+(const UInterval& a, unsigned int offset);
+UInterval                                      operator-(const UInterval& a, unsigned int offset);
+unsigned int                                   loOr2(UInterval a, UInterval b);
+unsigned int                                   hiOr2(UInterval a, UInterval b);
 std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x);
+static bool                                    contains(const UInterval& i, unsigned int x);
 
 UInterval bitwiseUnsignedOr(const UInterval& a, const UInterval& b)
 {

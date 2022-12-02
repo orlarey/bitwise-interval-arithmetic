@@ -5,8 +5,8 @@
 #include <sstream>
 #include <string>
 
-#include "Intervals.hh"
 #include "bitwiseAnd.hh"
+#include "bitwiseIntervals.hh"
 #include "bitwiseNot.hh"
 #include "bitwiseOr.hh"
 #include "bitwiseXOr.hh"

@@ -1,4 +1,4 @@
-#include "Intervals.hh"
+#include "bitwiseIntervals.hh"
 
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedNot(const UInterval& a);

@@ -1,5 +1,5 @@
 #pragma once
-#include "Intervals.hh"
+#include "bitwiseIntervals.hh"
 
 UInterval bitwiseUnsignedNot(const UInterval& a);
 SInterval bitwiseSignedNot(const SInterval& a);
