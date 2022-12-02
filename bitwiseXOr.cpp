@@ -20,7 +20,7 @@ void testUnsignedXOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsig
 
 void testUnsignedXOr(UInterval a, UInterval b)
 {
-    UInterval smart = smartUnsignedXOr(a, b);
+    UInterval smart = bitwiseUnsignedXOr(a, b);
     UInterval bf    = bfUnsignedXOr(a, b);
     if (bf == smart) {
         // std::cout << "OK: " << a << " ^ " << b << " = " << bf << std::endl;
@@ -39,7 +39,7 @@ void testSignedXOr(int lo1, int hi1, int lo2, int hi2)
 void testSignedXOr(SInterval a, SInterval b)
 {
     SInterval bf    = bfSignedXOr(a, b);
-    SInterval smart = smartSignedXOr(a, b);
+    SInterval smart = bitwiseSignedXOr(a, b);
     if (bf == smart) {
         // std::cout << "OK: " << a << " ^ " << b << " = " << bf << std::endl;
     } else {
@@ -82,18 +82,18 @@ SInterval bfSignedXOr(const SInterval& a, const SInterval& b)
 
 // p&q = non(non(p)|non(q))
 
-UInterval smartUnsignedXOr(const UInterval& a, const UInterval& b)
+UInterval bitwiseUnsignedXOr(const UInterval& a, const UInterval& b)
 {
-    return smartUnsignedAnd(smartUnsignedOr(a, b), smartUnsignedNot(smartUnsignedAnd(a, b)));
+    return bitwiseUnsignedAnd(bitwiseUnsignedOr(a, b), bitwiseUnsignedNot(bitwiseUnsignedAnd(a, b)));
 }
 
-SInterval smartSignedXOr(const SInterval& a, const SInterval& b)
+SInterval bitwiseSignedXOr(const SInterval& a, const SInterval& b)
 {
     auto [an, ap] = signSplit(a);
     auto [bn, bp] = signSplit(b);
-    UInterval pp  = smartUnsignedXOr(ap, bp);
-    UInterval nn  = smartUnsignedXOr(an, bn);
-    UInterval pn  = smartUnsignedXOr(ap, bn);
-    UInterval np  = smartUnsignedXOr(an, bp);
+    UInterval pp  = bitwiseUnsignedXOr(ap, bp);
+    UInterval nn  = bitwiseUnsignedXOr(an, bn);
+    UInterval pn  = bitwiseUnsignedXOr(ap, bn);
+    UInterval np  = bitwiseUnsignedXOr(an, bp);
     return signMerge(np + pn, pp + nn);
 }

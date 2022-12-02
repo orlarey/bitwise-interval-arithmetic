@@ -2,11 +2,11 @@
 
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b);
-UInterval smartUnsignedXOr(const UInterval& a, const UInterval& b);
+UInterval bitwiseUnsignedXOr(const UInterval& a, const UInterval& b);
 
 // computes bitwise not on UNUMervals by brute force
 SInterval bfSignedXOr(const SInterval& a, const SInterval& b);
-SInterval smartSignedXOr(const SInterval& a, const SInterval& b);
+SInterval bitwiseSignedXOr(const SInterval& a, const SInterval& b);
 
 void testUnsignedXOr(UInterval a, UInterval b);
 void testSignedXOr(SInterval a, SInterval b);

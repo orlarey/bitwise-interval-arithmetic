@@ -16,7 +16,7 @@ void testUnsignedOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsign
 
 void testUnsignedOr(UInterval a, UInterval b)
 {
-    UInterval smart = smartUnsignedOr(a, b);
+    UInterval smart = bitwiseUnsignedOr(a, b);
     UInterval bf    = bfUnsignedOr(a, b);
 
     if (bf == smart) {
@@ -36,7 +36,7 @@ void testSignedOr(int lo1, int hi1, int lo2, int hi2)
 void testSignedOr(SInterval a, SInterval b)
 {
     SInterval bf    = bfSignedOr(a, b);
-    SInterval smart = smartSignedOr(a, b);
+    SInterval smart = bitwiseSignedOr(a, b);
     if (bf == smart) {
         // std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
     } else {
@@ -82,7 +82,7 @@ unsigned int hiOr2(UInterval a, UInterval b);
 // split interval according to its msb
 std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x);
 
-UInterval smartUnsignedOr(const UInterval& a, const UInterval& b)
+UInterval bitwiseUnsignedOr(const UInterval& a, const UInterval& b)
 {
     if (a == UInterval{0, 0}) return b;
     if (b == UInterval{0, 0}) return a;
@@ -185,13 +185,13 @@ std::tuple<unsigned int, UInterval, UInterval> splitInterval(UInterval x)
     return {m, {x.lo, (unsigned int)(m - 1)}, {m, x.hi}};
 }
 
-SInterval smartSignedOr(const SInterval& a, const SInterval& b)
+SInterval bitwiseSignedOr(const SInterval& a, const SInterval& b)
 {
     auto [an, ap] = signSplit(a);
     auto [bn, bp] = signSplit(b);
-    UInterval pp  = smartUnsignedOr(ap, bp);
-    UInterval nn  = smartUnsignedOr(an, bn);
-    UInterval pn  = smartUnsignedOr(ap, bn);
-    UInterval np  = smartUnsignedOr(an, bp);
+    UInterval pp  = bitwiseUnsignedOr(ap, bp);
+    UInterval nn  = bitwiseUnsignedOr(an, bn);
+    UInterval pn  = bitwiseUnsignedOr(ap, bn);
+    UInterval np  = bitwiseUnsignedOr(an, bp);
     return signMerge(np + nn + pn, pp);
 }

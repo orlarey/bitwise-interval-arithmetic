@@ -30,12 +30,12 @@ SInterval bfSignedNot(const SInterval& a)
     return r;
 }
 
-UInterval smartUnsignedNot(const UInterval& a)
+UInterval bitwiseUnsignedNot(const UInterval& a)
 {
     return UInterval{(unsigned int)(~a.hi), (unsigned int)(~a.lo)};
 }
 
-SInterval smartSignedNot(const SInterval& a)
+SInterval bitwiseSignedNot(const SInterval& a)
 {
     return SInterval{(int)(~a.hi), (int)(~a.lo)};
 }
@@ -43,8 +43,8 @@ SInterval smartSignedNot(const SInterval& a)
 void testUnsignedNot(const UInterval& a)
 {
     UInterval r1 = bfUnsignedNot(a);
-    UInterval r2 = smartUnsignedNot(a);
-    UInterval r3 = smartUnsignedNot(r2);
+    UInterval r2 = bitwiseUnsignedNot(a);
+    UInterval r3 = bitwiseUnsignedNot(r2);
 
     if (r1 == r2) {
         std::cout << "OK: " << a << " -> " << r1 << " -> " << r3 << std::endl;
@@ -56,7 +56,7 @@ void testUnsignedNot(const UInterval& a)
 void testSignedNot(const SInterval& a)
 {
     SInterval r1 = bfSignedNot(a);
-    SInterval r2 = smartSignedNot(a);
+    SInterval r2 = bitwiseSignedNot(a);
     if (r1 == r2) {
         std::cout << "OK: " << a << " -> " << r1 << std::endl;
     } else {

@@ -2,11 +2,11 @@
 
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedOr(const UInterval& a, const UInterval& b);
-UInterval smartUnsignedOr(const UInterval& a, const UInterval& b);
+UInterval bitwiseUnsignedOr(const UInterval& a, const UInterval& b);
 
 // computes bitwise not on UNUMervals by brute force
 SInterval bfSignedOr(const SInterval& a, const SInterval& b);
-SInterval smartSignedOr(const SInterval& a, const SInterval& b);
+SInterval bitwiseSignedOr(const SInterval& a, const SInterval& b);
 
 void testUnsignedOr(UInterval a, UInterval b);
 void testSignedOr(SInterval a, SInterval b);

@@ -2,11 +2,11 @@
 
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedAnd(const UInterval& a, const UInterval& b);
-UInterval smartUnsignedAnd(const UInterval& a, const UInterval& b);
+UInterval bitwiseUnsignedAnd(const UInterval& a, const UInterval& b);
 
 // computes bitwise not on UNUMervals by brute force
 SInterval bfSignedAnd(const SInterval& a, const SInterval& b);
-SInterval smartSignedAnd(const SInterval& a, const SInterval& b);
+SInterval bitwiseSignedAnd(const SInterval& a, const SInterval& b);
 
 void testUnsignedAnd(UInterval a, UInterval b);
 void testSignedAnd(SInterval a, SInterval b);
