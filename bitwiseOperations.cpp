@@ -1,4 +1,6 @@
 #include <cassert>
+#include <tuple>
+#include <utility>
 
 #include "bitwiseOperations.hh"
 
