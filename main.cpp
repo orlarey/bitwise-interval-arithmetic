@@ -12,6 +12,7 @@
 #include "bitwiseXOr.hh"
 
 // generate random intervals for test purposes
+using namespace itv;
 
 constexpr int N          = 100;
 constexpr int TEST_LIMIT = 4096;

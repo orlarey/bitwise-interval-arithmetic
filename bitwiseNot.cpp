@@ -3,6 +3,8 @@
 #include "bitwiseIntervals.hh"
 #include "bitwiseOperations.hh"
 
+namespace itv
+{
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedNot(const UInterval& a)
 {
@@ -54,3 +56,4 @@ void testSignedNot(const SInterval& a)
         std::cout << "ERROR: " << a << " -> " << r1 << " != " << r2 << std::endl;
     }
 }
+}  // namespace itv

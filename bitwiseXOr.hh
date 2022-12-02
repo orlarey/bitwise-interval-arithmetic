@@ -1,5 +1,7 @@
 #include "bitwiseIntervals.hh"
 
+namespace itv
+{
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b);
 UInterval bitwiseUnsignedXOr(const UInterval& a, const UInterval& b);
@@ -16,3 +18,4 @@ void testSignedXOr(int lo1, int hi1, int lo2, int hi2);
 
 unsigned int loOr2(UInterval a, UInterval b);
 unsigned int hiOr2(UInterval a, UInterval b);
+}  // namespace itv

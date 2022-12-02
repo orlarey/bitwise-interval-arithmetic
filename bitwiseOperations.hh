@@ -1,6 +1,8 @@
 #pragma once
 #include "bitwiseIntervals.hh"
 
+namespace itv
+{
 UInterval bitwiseUnsignedNot(const UInterval& a);
 SInterval bitwiseSignedNot(const SInterval& a);
 
@@ -12,3 +14,4 @@ SInterval bitwiseSignedAnd(const SInterval& a, const SInterval& b);
 
 UInterval bitwiseUnsignedXOr(const UInterval& a, const UInterval& b);
 SInterval bitwiseSignedXOr(const SInterval& a, const SInterval& b);
+}  // namespace itv

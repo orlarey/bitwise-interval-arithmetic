@@ -10,6 +10,8 @@
 #include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"
 
+namespace itv
+{
 void testUnsignedAnd(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
 {
     UInterval a{lo1, hi1};
@@ -73,3 +75,4 @@ SInterval bfSignedAnd(const SInterval& a, const SInterval& b)
     }
     return result;
 }
+}  // namespace itv

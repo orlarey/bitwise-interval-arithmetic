@@ -3,6 +3,7 @@
 #include <iostream>
 #include <utility>
 
+namespace itv {
 //==============================================================================
 // Definitions of signed and unsigned intervals for bitwise operations
 //==============================================================================
@@ -95,4 +96,5 @@ inline SInterval signMerge(const UInterval& np, const UInterval& pp)
     }
 
     return {(int)(np.lo), (int)(pp.hi)};
+}
 }

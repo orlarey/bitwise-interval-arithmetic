@@ -3,6 +3,9 @@
 #include "bitwiseIntervals.hh"
 #include "bitwiseOperations.hh"
 
+namespace itv
+{
+
 UInterval bitwiseUnsignedNot(const UInterval& a)
 {
     return UInterval{(unsigned int)(~a.hi), (unsigned int)(~a.lo)};
@@ -171,3 +174,4 @@ SInterval bitwiseSignedXOr(const SInterval& a, const SInterval& b)
     UInterval np  = bitwiseUnsignedXOr(an, bp);
     return signMerge(np + pn, pp + nn);
 }
+}  // namespace itv

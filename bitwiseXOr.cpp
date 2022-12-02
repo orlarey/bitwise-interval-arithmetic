@@ -11,6 +11,8 @@
 #include "bitwiseOr.hh"
 #include "bitwiseXOr.hh"
 
+namespace itv
+{
 void testUnsignedXOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
 {
     UInterval a{lo1, hi1};
@@ -74,3 +76,4 @@ SInterval bfSignedXOr(const SInterval& a, const SInterval& b)
     }
     return result;
 }
+}  // namespace itv
