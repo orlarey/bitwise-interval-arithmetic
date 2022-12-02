@@ -12,6 +12,6 @@ The four operations are:
 
 Only NOT and OR are really implemented. AND and XOR operations are implemented by De Morgan equivalences.
 
-The implementation is in two files `bitwiseOperations.hh,.cpp`. All the other files implements the brute force methods and the tests. 
+The implementation is in two files `bitwiseOperations.hh,.cpp`. All the other files implements brute force methods and tests. 
 
 The random tests are implemented in `main.cpp`.
