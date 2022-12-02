@@ -5,7 +5,6 @@
 #include <unordered_map>
 
 #include "bitwiseAnd.hh"
-#include "bitwiseIntervals.hh"
 #include "bitwiseNot.hh"
 #include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"

@@ -6,8 +6,8 @@
 #include <string>
 
 #include "bitwiseAnd.hh"
-#include "bitwiseIntervals.hh"
 #include "bitwiseNot.hh"
+#include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"
 #include "bitwiseXOr.hh"
 

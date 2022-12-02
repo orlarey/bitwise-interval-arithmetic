@@ -4,7 +4,6 @@
 #include <tuple>
 #include <unordered_map>
 
-#include "bitwiseIntervals.hh"
 #include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"
 

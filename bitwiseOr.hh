@@ -1,4 +1,4 @@
-#include "bitwiseIntervals.hh"
+#include "bitwiseOperations.hh"
 
 namespace itv
 {
