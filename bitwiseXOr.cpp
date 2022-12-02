@@ -7,8 +7,8 @@
 #include "Intervals.hh"
 #include "bitwiseAnd.hh"
 #include "bitwiseNot.hh"
+#include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"
-
 #include "bitwiseXOr.hh"
 
 void testUnsignedXOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
@@ -73,27 +73,4 @@ SInterval bfSignedXOr(const SInterval& a, const SInterval& b)
         }
     }
     return result;
-}
-
-//==============================================================================
-// main algorithm
-// p^q = p|q & non(p&q)
-//
-
-// p&q = non(non(p)|non(q))
-
-UInterval bitwiseUnsignedXOr(const UInterval& a, const UInterval& b)
-{
-    return bitwiseUnsignedAnd(bitwiseUnsignedOr(a, b), bitwiseUnsignedNot(bitwiseUnsignedAnd(a, b)));
-}
-
-SInterval bitwiseSignedXOr(const SInterval& a, const SInterval& b)
-{
-    auto [an, ap] = signSplit(a);
-    auto [bn, bp] = signSplit(b);
-    UInterval pp  = bitwiseUnsignedXOr(ap, bp);
-    UInterval nn  = bitwiseUnsignedXOr(an, bn);
-    UInterval pn  = bitwiseUnsignedXOr(ap, bn);
-    UInterval np  = bitwiseUnsignedXOr(an, bp);
-    return signMerge(np + pn, pp + nn);
 }

@@ -9,14 +9,14 @@
 
 // Intervals are represented as pairs of numbers.
 template <typename T>
-struct Interval {
+struct BitwiseInterval {
     T lo;
     T hi;
 };
 
 // We need signed and unisgned intervals
-using SInterval = Interval<int>;
-using UInterval = Interval<unsigned int>;
+using SInterval = BitwiseInterval<int>;
+using UInterval = BitwiseInterval<unsigned int>;
 
 // Empty intervals represented by (.lo > .hi)
 constexpr UInterval UEMPTY{UINT_MAX, 0};
@@ -28,14 +28,14 @@ constexpr SInterval SEMPTY{INT_MAX, INT_MIN};
 
 // Empty intervals are intervals such that: lo > hi
 template <typename T>
-bool isEmpty(const Interval<T>& i)
+bool isEmpty(const BitwiseInterval<T>& i)
 {
     return i.lo > i.hi;
 }
 
 // Equality of intervals.
 template <typename T>
-bool operator==(const Interval<T>& a, const Interval<T>& b)
+bool operator==(const BitwiseInterval<T>& a, const BitwiseInterval<T>& b)
 {
     if (isEmpty(a)) return isEmpty(b);
     return (a.lo == b.lo) && (a.hi == b.hi);
@@ -63,7 +63,7 @@ inline std::ostream& operator<<(std::ostream& os, const SInterval& x)
 
 // Union of intervals
 template <typename T>
-Interval<T> operator+(const Interval<T>& a, const Interval<T>& b)
+BitwiseInterval<T> operator+(const BitwiseInterval<T>& a, const BitwiseInterval<T>& b)
 {
     if (isEmpty(a)) return b;
     if (isEmpty(b)) return a;

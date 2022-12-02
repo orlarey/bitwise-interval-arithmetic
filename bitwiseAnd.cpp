@@ -7,6 +7,7 @@
 #include "Intervals.hh"
 #include "bitwiseAnd.hh"
 #include "bitwiseNot.hh"
+#include "bitwiseOperations.hh"
 #include "bitwiseOr.hh"
 
 void testUnsignedAnd(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
@@ -71,17 +72,4 @@ SInterval bfSignedAnd(const SInterval& a, const SInterval& b)
         }
     }
     return result;
-}
-
-//==============================================================================
-// main algorithm
-
-UInterval bitwiseUnsignedAnd(const UInterval& a, const UInterval& b)
-{
-    return bitwiseUnsignedNot(bitwiseUnsignedOr(bitwiseUnsignedNot(a), bitwiseUnsignedNot(b)));
-}
-
-SInterval bitwiseSignedAnd(const SInterval& a, const SInterval& b)
-{
-    return bitwiseSignedNot(bitwiseSignedOr(bitwiseSignedNot(a), bitwiseSignedNot(b)));
 }

@@ -1,6 +1,7 @@
 #include <limits>
 
 #include "Intervals.hh"
+#include "bitwiseOperations.hh"
 
 // computes bitwise not on UNUMervals by brute force
 UInterval bfUnsignedNot(const UInterval& a)
@@ -28,16 +29,6 @@ SInterval bfSignedNot(const SInterval& a)
         if (ni > r.hi) r.hi = ni;
     }
     return r;
-}
-
-UInterval bitwiseUnsignedNot(const UInterval& a)
-{
-    return UInterval{(unsigned int)(~a.hi), (unsigned int)(~a.lo)};
-}
-
-SInterval bitwiseSignedNot(const SInterval& a)
-{
-    return SInterval{(int)(~a.hi), (int)(~a.lo)};
 }
 
 void testUnsignedNot(const UInterval& a)
