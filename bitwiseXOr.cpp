@@ -12,40 +12,27 @@
 
 namespace itv
 {
-void testUnsignedXOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
-{
-    UInterval a{lo1, hi1};
-    UInterval b{lo2, hi2};
-    testUnsignedXOr(a, b);
-}
 
-void testUnsignedXOr(UInterval a, UInterval b)
+bool testUnsignedXOr(UInterval a, UInterval b)
 {
     UInterval smart = bitwiseUnsignedXOr(a, b);
     UInterval bf    = bfUnsignedXOr(a, b);
-    if (bf == smart) {
-        // std::cout << "OK: " << a << " ^ " << b << " = " << bf << std::endl;
-    } else {
+    if (bf != smart) {
         std::cout << "ERROR: " << a << " ^ " << b << " = " << bf << " but got " << smart << std::endl;
+        return false;
     }
+    return true;
 }
 
-void testSignedXOr(int lo1, int hi1, int lo2, int hi2)
-{
-    SInterval a{lo1, hi1};
-    SInterval b{lo2, hi2};
-    testSignedXOr(a, b);
-}
-
-void testSignedXOr(SInterval a, SInterval b)
+bool testSignedXOr(SInterval a, SInterval b)
 {
     SInterval bf    = bfSignedXOr(a, b);
     SInterval smart = bitwiseSignedXOr(a, b);
-    if (bf == smart) {
-        // std::cout << "OK: " << a << " ^ " << b << " = " << bf << std::endl;
-    } else {
+    if (bf != smart) {
         std::cout << "ERROR: " << a << " ^ " << b << " = " << bf << " but we got " << smart << std::endl;
+        return false;
     }
+    return true;
 }
 
 UInterval bfUnsignedXOr(const UInterval& a, const UInterval& b)

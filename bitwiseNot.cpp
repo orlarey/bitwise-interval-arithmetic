@@ -32,27 +32,26 @@ SInterval bfSignedNot(const SInterval& a)
     return r;
 }
 
-void testUnsignedNot(const UInterval& a)
+bool testUnsignedNot(const UInterval& a)
 {
     UInterval r1 = bfUnsignedNot(a);
     UInterval r2 = bitwiseUnsignedNot(a);
-    UInterval r3 = bitwiseUnsignedNot(r2);
 
-    if (r1 == r2) {
-        std::cout << "OK: " << a << " -> " << r1 << " -> " << r3 << std::endl;
-    } else {
+    if (r1 != r2) {
         std::cout << "ERROR: " << a << " -> " << r1 << " != " << r2 << std::endl;
+        return false;
     }
+    return true;
 }
 
-void testSignedNot(const SInterval& a)
+bool testSignedNot(const SInterval& a)
 {
     SInterval r1 = bfSignedNot(a);
     SInterval r2 = bitwiseSignedNot(a);
-    if (r1 == r2) {
-        std::cout << "OK: " << a << " -> " << r1 << std::endl;
-    } else {
+    if (r1 != r2) {
         std::cout << "ERROR: " << a << " -> " << r1 << " != " << r2 << std::endl;
+        return false;
     }
+    return true;
 }
 }  // namespace itv

@@ -9,41 +9,28 @@
 
 namespace itv
 {
-void testUnsignedOr(unsigned int lo1, unsigned int hi1, unsigned int lo2, unsigned int hi2)
-{
-    UInterval a{lo1, hi1};
-    UInterval b{lo2, hi2};
-    testUnsignedOr(a, b);
-}
 
-void testUnsignedOr(UInterval a, UInterval b)
+bool testUnsignedOr(UInterval a, UInterval b)
 {
     UInterval smart = bitwiseUnsignedOr(a, b);
     UInterval bf    = bfUnsignedOr(a, b);
 
-    if (bf == smart) {
-        // std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
-    } else {
+    if (bf != smart) {
         std::cout << "ERROR: " << a << " | " << b << " = " << bf << " but got " << smart << std::endl;
+        return false;
     }
+    return true;
 }
 
-void testSignedOr(int lo1, int hi1, int lo2, int hi2)
-{
-    SInterval a{lo1, hi1};
-    SInterval b{lo2, hi2};
-    testSignedOr(a, b);
-}
-
-void testSignedOr(SInterval a, SInterval b)
+bool testSignedOr(SInterval a, SInterval b)
 {
     SInterval bf    = bfSignedOr(a, b);
     SInterval smart = bitwiseSignedOr(a, b);
-    if (bf == smart) {
-        // std::cout << "OK: " << a << " | " << b << " = " << bf << std::endl;
-    } else {
+    if (bf != smart) {
         std::cout << "ERROR: " << a << " | " << b << " = " << bf << " but we got " << smart << std::endl;
+        return false;
     }
+    return true;
 }
 
 UInterval bfUnsignedOr(const UInterval& a, const UInterval& b)

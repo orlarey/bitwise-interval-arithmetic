@@ -37,26 +37,39 @@ class RandomIntervals
 int main()
 {
     RandomIntervals R;
+    bool            g = true;
 
-    std::cout << "\n--BITWISE OPERATIONS ON INTERVALS TESTS--\n" << std::endl;
+    std::cout << "BITWISE OPERATIONS ON INTERVALS" << std::endl;
 
-    std::cout << "\ntestUnsignedOr" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedOr(R.urandom(), R.urandom());
+    std::cout << "testUnsignedOr : ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testUnsignedOr(R.urandom(), R.urandom());
+    if (g) std::cout << "PASS" << std::endl;
 
-    std::cout << "\ntestSignedOr" << std::endl;
-    for (int i = 0; i < N; i++) testSignedOr(R.srandom(), R.srandom());
+    std::cout << "testSignedOr   : ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testSignedOr(R.srandom(), R.srandom());
+    if (g) std::cout << "PASS" << std::endl;
 
-    std::cout << "\ntestUnsignedAnd" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedAnd(R.urandom(), R.urandom());
+    std::cout << "testUnsignedAnd: ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testUnsignedAnd(R.urandom(), R.urandom());
+    if (g) std::cout << "PASS" << std::endl;
 
-    std::cout << "\ntestSignedAnd" << std::endl;
-    for (int i = 0; i < N; i++) testSignedAnd(R.srandom(), R.srandom());
+    std::cout << "testSignedAnd  : ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testSignedAnd(R.srandom(), R.srandom());
+    if (g) std::cout << "PASS" << std::endl;
 
-    std::cout << "\ntestUnsignedXOr" << std::endl;
-    for (int i = 0; i < N; i++) testUnsignedXOr(R.urandom(), R.urandom());
+    std::cout << "testUnsignedXOr: ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testUnsignedXOr(R.urandom(), R.urandom());
+    if (g) std::cout << "PASS" << std::endl;
 
-    std::cout << "\ntestSignedXOr" << std::endl;
-    for (int i = 0; i < N; i++) testSignedXOr(R.srandom(), R.srandom());
+    std::cout << "testSignedXOr  : ";
+    g = true;
+    for (int i = 0; i < N; i++) g &= testSignedXOr(R.srandom(), R.srandom());
+    if (g) std::cout << "PASS" << std::endl;
 
     return 0;
 }

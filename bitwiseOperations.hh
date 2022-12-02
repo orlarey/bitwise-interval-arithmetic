@@ -44,6 +44,14 @@ bool operator==(const BitwiseInterval<T>& a, const BitwiseInterval<T>& b)
     return (a.lo == b.lo) && (a.hi == b.hi);
 }
 
+// Equality of intervals.
+template <typename T>
+bool operator!=(const BitwiseInterval<T>& a, const BitwiseInterval<T>& b)
+{
+    if (isEmpty(a)) return !isEmpty(b);
+    return (a.lo != b.lo) || (a.hi != b.hi);
+}
+
 //==============================================================================
 // Printing
 //==============================================================================
