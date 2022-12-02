@@ -5,6 +5,33 @@
 namespace itv
 {
 
+/**
+ * Split a signed interval into two unsigned intervals, for the negative and the positive part
+ */
+std::pair<UInterval, UInterval> signSplit(const SInterval& x)
+{
+    if (isEmpty(x)) return {UEMPTY, UEMPTY};
+    if (x.hi < 0) return {{(unsigned int)(x.lo), (unsigned int)(x.hi)}, UEMPTY};
+    if (x.lo >= 0) return {UEMPTY, {(unsigned int)(x.lo), (unsigned int)(x.hi)}};
+    return {{(unsigned int)(x.lo), (unsigned int)(-1)}, {(unsigned int)(0), (unsigned int)(x.hi)}};
+}
+
+/**
+ * Merge two unsigned intervals to form a signed interval
+ */
+SInterval signMerge(const UInterval& np, const UInterval& pp)
+{
+    if (isEmpty(np)) {
+        if (isEmpty(pp)) return SEMPTY;
+        return {(int)(pp.lo), (int)(pp.hi)};
+    }
+    if (isEmpty(pp)) {
+        return {(int)(np.lo), (int)(np.hi)};
+    }
+
+    return {(int)(np.lo), (int)(pp.hi)};
+}
+
 UInterval bitwiseUnsignedNot(const UInterval& a)
 {
     return UInterval{(unsigned int)(~a.hi), (unsigned int)(~a.lo)};
