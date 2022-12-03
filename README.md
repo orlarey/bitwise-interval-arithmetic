@@ -1,6 +1,6 @@
 ![C/C++ CI](https://github.com/orlarey/cpptemplate/workflows/C/C++%20CI/badge.svg)
 
-# Bitwise Operations on Intervals
+# Bitwise Interval Arithmetic
 This small library provides exact bitwise operations on integer intervals. The results are exact in the sense that they are the same than a brute-force implementation, but faster. Integer intervals can be either signed (`SInterval`) or unsigned (`UInterval`). 
 
 The four operations are:
