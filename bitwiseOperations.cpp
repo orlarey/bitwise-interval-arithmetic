@@ -74,9 +74,16 @@ unsigned int hiOr2(UInterval a, UInterval b)
     // simple cases
     if (a.lo == 0 && a.hi == 0) return b.hi;
     if (b.lo == 0 && b.hi == 0) return a.hi;
+
     // analyze and split the intervals
     auto [ma, a0, a1] = splitInterval(a);
     auto [mb, b0, b1] = splitInterval(b);
+
+    // mask rule
+    if ((a.hi == 2 * ma - 1) || (b.hi == 2 * mb - 1)) {
+        return a.hi | b.hi;
+    }
+
     if (mb > ma) {
         if (contains(a, mb - 1)) return 2 * mb - 1;
         return hiOr2(b1 - mb, a) + mb;
