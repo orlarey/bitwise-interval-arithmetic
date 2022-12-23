@@ -15,11 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: cmake mkdir
       run: mkdir build
-    - name: change dir
-      run: cd build
     - name: cmake create project
-      run: cmake .. -G "Visual Studio 17 2022" -A x64
+      run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
     - name: cmake make
-      run: cmake --build . --config Release
+      run: cmake --build build --config Release
     - name: test
       run: ./test
