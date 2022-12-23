@@ -13,13 +13,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: cmake
+    - name: cmake mkdir
       run: mkdir build
     - name: change dir
       run: cd build
-    - name: cmake build
+    - name: cmake create project
       run: cmake .. -G "Visual Studio 17 2022" -A x64
     - name: cmake make
-      run: cmake --build . --target all
+      run: cmake --build . --config Release
     - name: test
       run: ./test
