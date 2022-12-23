@@ -20,4 +20,4 @@ jobs:
     - name: cmake make
       run: cmake --build build --config Release
     - name: test
-      run: ./test
+      run: ./build/Release/test.exe
