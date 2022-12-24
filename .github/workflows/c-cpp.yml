@@ -7,10 +7,10 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+
+  build-windows:
 
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: cmake mkdir
@@ -21,3 +21,18 @@ jobs:
       run: cmake --build build --config Release
     - name: test
       run: ./build/Release/test.exe
+
+  build-linux:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: cmake mkdir
+      run: mkdir build
+    - name: cmake build
+      run: cmake -S . -B build
+    - name: cmake make
+      run: cmake --build build/ --target all
+    - name: test
+      run: ./build/test
