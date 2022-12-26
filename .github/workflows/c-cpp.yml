@@ -37,17 +37,3 @@ jobs:
     - name: test
       run: ./build/test
 
-  build-macos:
-
-    runs-on: macOS-12
-    
-    steps:
-    - uses: actions/checkout@v2
-    - name: cmake mkdir
-      run: mkdir build
-    - name: cmake build
-      run: cmake -S . -B build
-    - name: cmake make
-      run: cmake --build build/ --target all
-    - name: test
-      run: ./build/test
